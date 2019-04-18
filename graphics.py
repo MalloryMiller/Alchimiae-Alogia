@@ -169,30 +169,17 @@ class visual(turtle.Turtle):
 class visualFigure(visual):
 
     def __init__(self, player_type):
+        print("hi")
         super().__init__(player_type)
-##        if player_type in ['alchem']:
-##            self.goto(image_coords[self.playert][alchem1][0],
-##                      image_coords[self.playert][alchem1][1])
-##            
-##            self.shape(alchem1)
-##            
-##        else:
-##            self.goto(image_coords[self.playert][mehcla1][0],
-##                      image_coords[self.playert][mehcla1][1])
-##        
-##            self.shape(mehcla1)
-
         
-
         self.shapes = []
-        for k in image_coords[player_type]:
+        for k in image_coords[self.playert]:
             self.shapes.append(k)
             
         self.goto(image_coords[self.playert][self.shapes[0]][0],
                   image_coords[self.playert][self.shapes[0]][1])
         
         self.shape(self.shapes[0])
-
         
         screen.update()
 
@@ -200,7 +187,7 @@ class visualFigure(visual):
     def attacking(self):
         self.change_image(self.shapes[1])
         screen.update()
-        t.sleep(1)
+        t.sleep(.75)
         self.change_image(self.shapes[0])
         screen.update()
 

@@ -51,13 +51,17 @@ class Player():
         self.full_stamina = full_stamina
         self.full_defense = full_defense
 
-
-    def begin_turn(self):
-        self.stamina += 2
-
+        
+    def lost(self):
+        self.visual.lose()
+        
     
     def end_turn(self):
         self.buff_status_time -= 1
+
+
+    def begin_turn(self):
+        self.stamina += 2
 
 
     def attack(self, target, atk_name, multiplier = 1):
@@ -66,6 +70,8 @@ class Player():
 
         print(self.name, "has attacked", target.name, "with", atk_name + ",")
 
+        self.visual.attacking()
+        
         if multiplier * 4 <= self.stamina:
             target.take_damage(self, damage)
             self.stamina -= multiplier * 4
@@ -82,12 +88,17 @@ class Player():
         
         print(self.name, "has taken", damage, "points of damage from", \
               attacker.name + "'s attack.")
+        self.visual.take_damage()
+
+        if self.health <= 0:
+            self.lost()
         
         self.begin_turn()
 
 
     def heal(self, heal_name):
         heal = (self.full_health // 4) + r.randint(0, randomness)
+        maxim = False
         
         if self.health + heal > self.full_health:
             maxim = True
@@ -98,6 +109,8 @@ class Player():
 
         if maxim == True:
             print(self.name, "is at full health!")
+
+        self.end_turn()
 
 
 
@@ -121,12 +134,9 @@ class Alchemist(Player): #Light
         self.full_health += buff
         self.health += buff
 
-        
-
 
     def act1(self, target):
         self.attack(target, self.actNames[0])
-
 
     def act2(self, target):
         self.attack(target, self.actNames[1], 3)
@@ -156,6 +166,10 @@ class AzureArcher(Player): #Water
             "Bandage"
 
             ]
+        if enemy_t_or_f == True:
+            self.visual = g.visualFigure("azurea")
+        else:
+            self.visual = g.visualFigure("aeruza")
         
         self.full_stamina += stamina_buff
         self.stamina += stamina_buff
@@ -193,10 +207,14 @@ class IncendiaryWarrior(Player): #Fire
             "Healing Stew"
 
             ]
+        if enemy_t_or_f == True:
+            self.visual = g.visualFigure("incwar")
+        else:
+            self.visual = g.visualFigure("rawcni")
 
         self.full_strength += buff
         self.strength += buff
-
+        
 
     def act1(self, target):
         self.attack(target, self.actNames[0])
@@ -229,10 +247,14 @@ class StarryKnight(Player): #Darkness
             "Medical Break"
             
             ]
+        if enemy_t_or_f == True:
+            self.visual = g.visualFigure("starkn")
+        else:
+            self.visual = g.visualFigure("nkrats")
 
         self.full_defense += buff
         self.defense += buff
-
+        
 
     def act1(self, target):
         self.attack(target, self.actNames[0])

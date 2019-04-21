@@ -6,8 +6,8 @@ import player_types as pt
 
 def main():
     
-    random_player = pt.r(0, 3)
-    random_enemy = pt.r(0, 3)
+    random_player = 1  # pt.r.randint(0, 3)
+    random_enemy = 0  # pt.r.randint(0, 3)
 
 
     player = pt.player_types[random_player]\
@@ -51,7 +51,29 @@ def main():
             else:
                 enemy.act1(player)
 
+        print("\n")
+        print("Enemy Health:", enemy.health, "\nEnemy Stamina:", enemy.stamina)
+        print("Player Health:", player.health, "\nPlayer Stamina:", player.stamina)
+
+
+
         player.begin_turn()
+
+
+    def nullkeys():
+        
+        turtle.onkey(None, "Left")
+        turtle.onkey(None, "Right")
+        turtle.onkey(None, "Return")
+        actions.ht()
+        g.screen.update()
+
+    def castBattlekeys():
+        turtle.onkey(left, "Left")
+        turtle.onkey(right, "Right")
+        turtle.onkey(enter, "Return")
+        actions.st()
+        g.screen.update()
         
         
 
@@ -64,18 +86,18 @@ def main():
         g.screen.update()
 
     def enter():
+        nullkeys()
         action_ordered[actions.select_opt](enemy)
+        
         print("\n")
-        print("Enemy Health:", enemy.health)
-        print("Player Health:", player.health)
+        print("Enemy Health:", enemy.health, "\nEnemy Stamina:", enemy.stamina)
+        print("Player Health:", player.health, "\nPlayer Stamina:", player.stamina)
+
         enemys_turn()
-        print("Enemy Health:", enemy.health)
-        print("Player Health:", player.health)
+        castBattlekeys()
         
 
-    turtle.onkey(left, "Left")
-    turtle.onkey(right, "Right")
-    turtle.onkey(enter, "Return")
+    castBattlekeys()
     g.screen.update()
     turtle.listen()
     g.screen.mainloop()

@@ -92,11 +92,11 @@ class Player():
 
         if self.health <= 0:
             self.lost()
-        
-        self.begin_turn()
+        else:
+            self.begin_turn()
 
 
-    def heal(self, heal_name):
+    def heal(self, enemy, heal_name):
         heal = (self.full_health // 4) + r.randint(0, randomness)
         maxim = False
         
@@ -106,9 +106,11 @@ class Player():
             
         self.health += heal
         print(self.name, "has healed", heal, "health points with a", heal_name + ".")
-
+        self.stamina -= 2
         if maxim == True:
             print(self.name, "is at full health!")
+
+        self.visual.healing()
 
         self.end_turn()
 
@@ -121,9 +123,9 @@ class Alchemist(Player): #Light
     def __init__(self, name, enemy_t_or_f):
         super().__init__(name)
         self.actNames = [
-            "Acidic Solution",
             "Blinding Barrage",
             "Splash Poison",
+            "Acidic Solution",
             "Healing Medley"
             ]
         if enemy_t_or_f == True:
@@ -147,7 +149,7 @@ class Alchemist(Player): #Light
 
 
     def act4(self, target):
-        self.heal(self.actNames[3])
+        self.heal(target, self.actNames[3])
 
 
 
@@ -155,7 +157,7 @@ class Alchemist(Player): #Light
 
 
 class AzureArcher(Player): #Water
-    def __init__(self, name):
+    def __init__(self, name, enemy_t_or_f):
         super().__init__(name)
 
         self.actNames = [
@@ -196,7 +198,7 @@ class AzureArcher(Player): #Water
 
 
 class IncendiaryWarrior(Player): #Fire
-    def __init__(self, name):
+    def __init__(self, name, enemy_t_or_f):
         super().__init__(name)
         
         self.actNames = [
@@ -236,7 +238,7 @@ class IncendiaryWarrior(Player): #Fire
 
 
 class StarryKnight(Player): #Darkness
-    def __init__(self, name):
+    def __init__(self, name, enemy_t_or_f):
         super().__init__(name)
         
         self.actNames = [

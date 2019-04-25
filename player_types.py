@@ -53,8 +53,13 @@ class Player():
 
         
     def lost(self):
-        self.visual.lose()
-        
+
+        if self.health <= 0:
+            self.visual.lose()
+            return True
+        else:
+            return False
+    
     
     def end_turn(self):
         self.buff_status_time -= 1
@@ -64,7 +69,7 @@ class Player():
         self.stamina += 2
 
 
-    def attack(self, target, atk_name, multiplier = 1):
+    def attack(self, target, atk_name, multiplier = 2):
         damage = (self.strength // atkdef_divider) \
                  * multiplier + (r.randint(0, randomness))
 
@@ -72,9 +77,9 @@ class Player():
 
         self.visual.attacking()
         
-        if multiplier * 4 <= self.stamina:
+        if multiplier * 1.5 <= self.stamina:
             target.take_damage(self, damage)
-            self.stamina -= multiplier * 4
+            self.stamina -= multiplier * 1.5
         else:
             print("but they didn't have enough stamina.")
             
@@ -85,13 +90,15 @@ class Player():
         damage -= self.defense // atkdef_divider \
                   + r.randint(-randomness, 0)
         self.health -= damage
+
+        self.health_bar.change_value(self.health)
         
         print(self.name, "has taken", damage, "points of damage from", \
               attacker.name + "'s attack.")
         self.visual.take_damage()
 
-        if self.health <= 0:
-            self.lost()
+        if self.lost():
+            return True
         else:
             self.begin_turn()
 
@@ -105,6 +112,9 @@ class Player():
             heal = self.full_health - self.health
             
         self.health += heal
+
+        self.health_bar.change_value(self.health)
+        
         print(self.name, "has healed", heal, "health points with a", heal_name + ".")
         self.stamina -= 2
         if maxim == True:
@@ -113,6 +123,7 @@ class Player():
         self.visual.healing()
 
         self.end_turn()
+        enemy.begin_turn()
 
 
 
@@ -128,13 +139,16 @@ class Alchemist(Player): #Light
             "Acidic Solution",
             "Healing Medley"
             ]
-        if enemy_t_or_f == True:
-            self.visual = g.visualFigure("mehcla")
-        else:
-            self.visual = g.visualFigure("alchem")
 
         self.full_health += buff
         self.health += buff
+        
+        if enemy_t_or_f == True:
+            self.visual = g.visualFigure("mehcla")
+            self.health_bar = g.health_bar(self.full_health, 'right')
+        else:
+            self.visual = g.visualFigure("alchem")
+            self.health_bar = g.health_bar(self.full_health, 'left')
 
 
     def act1(self, target):
@@ -168,13 +182,16 @@ class AzureArcher(Player): #Water
             "Bandage"
 
             ]
-        if enemy_t_or_f == True:
-            self.visual = g.visualFigure("azurea")
-        else:
-            self.visual = g.visualFigure("aeruza")
         
         self.full_stamina += stamina_buff
         self.stamina += stamina_buff
+        
+        if enemy_t_or_f == True:
+            self.visual = g.visualFigure("aeruza")
+            self.health_bar = g.health_bar(self.full_health, 'right')
+        else:
+            self.visual = g.visualFigure("azurea")
+            self.health_bar = g.health_bar(self.full_health, 'left')
 
 
     def act1(self, target):
@@ -182,15 +199,15 @@ class AzureArcher(Player): #Water
 
 
     def act2(self, target):
-        self.attack(target, self.actNames[1], 3)
+        self.attack(target, self.actNames[1], 4)
 
 
     def act3(self, target):
-        self.attack(target, self.actNames[2], 5)
+        self.attack(target, self.actNames[2], 6)
 
 
     def act4(self, target):
-        self.heal(self.actNames[3])
+        self.heal(target, self.actNames[3])
 
 
 
@@ -209,13 +226,16 @@ class IncendiaryWarrior(Player): #Fire
             "Healing Stew"
 
             ]
-        if enemy_t_or_f == True:
-            self.visual = g.visualFigure("incwar")
-        else:
-            self.visual = g.visualFigure("rawcni")
 
         self.full_strength += buff
         self.strength += buff
+        
+        if enemy_t_or_f == True:
+            self.visual = g.visualFigure("rawcni")
+            self.health_bar = g.health_bar(self.full_health, 'right')
+        else:
+            self.visual = g.visualFigure("incwar")
+            self.health_bar = g.health_bar(self.full_health, 'left')
         
 
     def act1(self, target):
@@ -231,7 +251,7 @@ class IncendiaryWarrior(Player): #Fire
 
 
     def act4(self, target):
-        self.heal(self.actNames[3])
+        self.heal(target, self.actNames[3])
 
 
 
@@ -249,13 +269,16 @@ class StarryKnight(Player): #Darkness
             "Medical Break"
             
             ]
-        if enemy_t_or_f == True:
-            self.visual = g.visualFigure("starkn")
-        else:
-            self.visual = g.visualFigure("nkrats")
 
         self.full_defense += buff
         self.defense += buff
+        
+        if enemy_t_or_f == True:
+            self.visual = g.visualFigure("nkrats")
+            self.health_bar = g.health_bar(self.full_health, 'right')
+        else:
+            self.visual = g.visualFigure("starkn")
+            self.health_bar = g.health_bar(self.full_health, 'left')
         
 
     def act1(self, target):
@@ -271,7 +294,7 @@ class StarryKnight(Player): #Darkness
 
 
     def act4(self, target):
-        self.heal(self.actNames[3])
+        self.heal(target, self.actNames[3])
 
 
 
@@ -284,3 +307,4 @@ player_types = [
     StarryKnight
 
     ]
+

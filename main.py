@@ -2,20 +2,23 @@ import turtle
 import graphics as g
 import player_types as pt
 
+g.screen.tracer(1000, 1000)
 
 
 def main():
     
-    random_player = 1  # pt.r.randint(0, 3)
-    random_enemy = 0  # pt.r.randint(0, 3)
+    random_player = pt.r.randint(0, 1)
+    random_enemy = 0  # pt.r.randint(0, 1)
+
+    possible_players = pt.player_types
 
 
-    player = pt.player_types[random_player]\
+    player = possible_players.pop(random_player)\
              (pt.player_names[random_player][pt.r.randint(0, 3)],
               False)  # player, not enemy
     print(player)
 
-    enemy = pt.player_types[random_enemy]\
+    enemy = possible_players.pop(random_enemy)\
             (pt.enemy_names[random_enemy][pt.r.randint(0, 3)],
              True)  # enemy, not player
     print(enemy, '\n')
@@ -61,7 +64,6 @@ def main():
 
 
     def nullkeys():
-        
         turtle.onkey(None, "Left")
         turtle.onkey(None, "Right")
         turtle.onkey(None, "Return")

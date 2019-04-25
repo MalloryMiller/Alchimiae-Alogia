@@ -28,19 +28,19 @@ mehcla5 = 'mehcla5.gif'
 
 azurea1 = 'azurea1.gif'
 azurea2 = 'azurea2.gif'
-azurea3 = '.gif'
-azurea4 = '.gif'
-azurea5 = '.gif'
+azurea3 = 'azurea3.gif'
+azurea4 = 'azurea4.gif'
+azurea5 = 'azurea5.gif'
 
 aeruza1 = 'aeruza1.gif'
 aeruza2 = 'aeruza2.gif'
-aeruza3 = '.gif'
-aeruza4 = '.gif'
-aeruza5 = '.gif'
+aeruza3 = 'aeruza3.gif'
+aeruza4 = 'aeruza4.gif'
+aeruza5 = 'aeruza5.gif'
 
 
 
-incwar1 = '.gif'
+incwar1 = 'incwar.gif'
 incwar2 = '.gif'
 incwar3 = '.gif'
 incwar4 = '.gif'
@@ -89,15 +89,134 @@ screen.addshape(mehcla5)
 
 screen.addshape(azurea1)
 screen.addshape(azurea2)
-##screen.addshape(azurea3)
-##screen.addshape(azurea4)
-##screen.addshape(azurea5)
+screen.addshape(azurea3)
+screen.addshape(azurea4)
+screen.addshape(azurea5)
 
 screen.addshape(aeruza1)
 screen.addshape(aeruza2)
-##screen.addshape(aeruza3)
-##screen.addshape(aeruza4)
-##screen.addshape(aeruza5)
+screen.addshape(aeruza3)
+screen.addshape(aeruza4)
+screen.addshape(aeruza5)
+
+
+##screen.addshape(incwar1)
+##screen.addshape(incwar2)
+##screen.addshape(incwar3)
+##screen.addshape(incwar4)
+##screen.addshape(incwar5)
+##
+##screen.addshape(rawcni1)
+##screen.addshape(rawcni2)
+##screen.addshape(rawcni3)
+##screen.addshape(rawcni4)
+##screen.addshape(rawcni5)
+##
+##
+##screen.addshape(starkn1)
+##screen.addshape(starkn2)
+##screen.addshape(starkn3)
+##screen.addshape(starkn4)
+##screen.addshape(starkn5)
+##
+##screen.addshape(nkrats1)
+##screen.addshape(nkrats2)
+##screen.addshape(nkrats3)
+##screen.addshape(nkrats4)
+##screen.addshape(nkrats5)
+
+
+
+
+image_coords = {
+
+    "alchem": {  # PLAYER ALCHEMIST
+        
+        alchem1: [-161, -13],  # image_displayed: [coordx, coordy], 
+        alchem2: [-143, -20],
+        alchem3: [-148, -10],
+        alchem4: [-156, -14], 
+        alchem5: [-198, -83]
+
+        }, 
+    
+    "mehcla": {  # ENEMY ALCHEMIST
+        
+        mehcla1: [169, -14], 
+        mehcla2: [127, -18],
+        mehcla3: [150, -12],
+        mehcla4: [154, -13], 
+        mehcla5: [202, -85]
+
+        },
+
+    "azurea": {  # PLAYER ARCHER
+        
+        azurea1: [-161, -36], 
+        azurea2: [-119, -34],
+        azurea3: [-205, -54],
+        azurea4: [-185, -91], 
+        azurea5: [-179, -89]
+
+        }, 
+    
+    "aeruza": {  # ENEMY ARCHER
+        
+        aeruza1: [175, -34], 
+        aeruza2: [116, -36],
+        aeruza3: [201, -54],
+        aeruza4: [181, -92], 
+        aeruza5: [176, -86]
+
+        },
+
+    "incwar": {  # PLAYER WARRIOR
+        
+        incwar1: [-161, -13], 
+        incwar2: [-143, -20],
+        incwar3: [-148, -10],
+        incwar4: [], 
+        incwar5: [-198, -83]
+
+        }, 
+    
+    "rawcni": {  # ENEMY WARRIOR
+        
+        rawcni1: [169, -14], 
+        rawcni2: [127, -18],
+        rawcni3: [150, -12],
+        rawcni4: [], 
+        rawcni5: [202, -85]
+
+        },
+
+    "starkn": {  # PLAYER KNIGHT
+        
+        starkn1: [-161, -13], 
+        starkn2: [-143, -20],
+        starkn3: [-148, -10],
+        starkn4: [], 
+        starkn5: [-198, -83]
+
+        }, 
+    
+    "nkrats": {  # ENEMY KNIGHT
+        
+        nkrats1: [169, -14], 
+        nkrats2: [127, -18],
+        nkrats3: [150, -12],
+        nkrats4: [], 
+        nkrats5: [202, -85]
+
+        }
+    
+    
+    }
+
+
+
+
+
 
 screen.bgpic(bckgrd)
 
@@ -175,103 +294,97 @@ class GroupOf4Buttons(turtle.Turtle):
         return self.select_opt
 
 
-class bar_lable(turtle.Turtle):
-    def __init__(self, host):
+    
+
+class vis_bar(turtle.Turtle):
+
+    def __init__(self, host, side):
+        super().__init__()
         self.host = host
+        self.ht()
+        
+        
+        self.max_val = host.host_value
+        
+        self.penup()
+        if side == 'left':
+            self.start_bar = [-320, 240]
+            self.goto(self.start_bar[0], self.start_bar[1])
+        else:
+            self.start_bar = [320, 240]
+            self.goto(self.start_bar[0], self.start_bar[1])
+            self.setheading(180)
+        self.pendown()
+        
+
+        self.color('dark green')
+        self.pensize(15)
+        self.fd(self.max_val * 2)
+        self.fd(self.max_val * -2)
+        self.pensize(10)
+        x = .5
+        for y in range(self.max_val):
+            self.color(0, x, 0)  # bright green
+            x += .002
+            self.fd(2)
+        
+        screen.update()
+
+    def change_value(self, value):
+        self.clear()
+        self.penup()
+        self.goto(self.start_bar[0], self.start_bar[1])
+        self.pendown()
+        
+        self.color('dark green')
+        self.pensize(15)
+        self.fd(self.max_val * 2)
+        self.fd(self.max_val * -2)
+        
+        self.pensize(10)        
+        x = .5
+        for y in range(value):
+            self.color(0, x, 0)  # bright green
+            x += .002
+            self.fd(2)
+        screen.update()
+        
+        
+        
+
+
+class health_bar(turtle.Turtle):
+    
+    def __init__(self, host_value, side):
+        super().__init__()
+        self.ht()
+        
+        self.penup()
+        if side == 'left':
+            self.start_bar = [-300, 250]
+            self.goto(self.start_bar[0], self.start_bar[1])
+        else:
+            self.start_bar = [300, 250]
+            self.goto(self.start_bar[0], self.start_bar[1])
+            self.setheading(180)
+        self.pendown()
+        
+        self.host_value = host_value
+        self.vis = vis_bar(self, side)
+        
+        self.color(.6, .9, .6)  # pale green
+        self.write(host_value, False, 'center', ("Calabri", 15, "bold"))
         
     def change_value(self, value):
+        self.clear()
+        self.write(value, False, 'center', ("Calabri", 15, "bold"))
+        self.vis.change_value(value)
         pass
 
 
 
-image_coords = {
 
-    "alchem": {  # PLAYER ALCHEMIST
-        
-        alchem1: [-161, -13],  # image_displayed: [coordx, coordy], 
-        alchem2: [-143, -20],
-        alchem3: [-148, -10],
-        alchem4: [-156, -14], 
-        alchem5: [-198, -83]
-
-        }, 
     
-    "mehcla": {  # ENEMY ALCHEMIST
-        
-        mehcla1: [169, -14], 
-        mehcla2: [127, -18],
-        mehcla3: [150, -12],
-        mehcla4: [154, -13], 
-        mehcla5: [202, -85]
-
-        },
-
-    "azurea": {  # PLAYER ARCHER
-        
-        azurea1: [-161, -36], 
-        azurea2: [-119, -34],
-        azurea3: [-148, -10],
-        azurea4: [], 
-        azurea5: [-198, -90]
-
-        }, 
-    
-    "aeruza": {  # ENEMY ARCHER
-        
-        aeruza1: [175, -34], 
-        aeruza2: [116, -36],
-        aeruza3: [150, -12],
-        aeruza4: [], 
-        aeruza5: [202, -85]
-
-        },
-
-    "incwar": {  # PLAYER WARRIOR
-        
-        incwar1: [-161, -13], 
-        incwar2: [-143, -20],
-        incwar3: [-148, -10],
-        incwar4: [], 
-        incwar5: [-198, -83]
-
-        }, 
-    
-    "rawcni": {  # ENEMY WARRIOR
-        
-        rawcni1: [169, -14], 
-        rawcni2: [127, -18],
-        rawcni3: [150, -12],
-        rawcni4: [], 
-        rawcni5: [202, -85]
-
-        },
-
-    "starkn": {  # PLAYER KNIGHT
-        
-        starkn1: [-161, -13], 
-        starkn2: [-143, -20],
-        starkn3: [-148, -10],
-        starkn4: [], 
-        starkn5: [-198, -83]
-
-        }, 
-    
-    "nkrats": {  # ENEMY KNIGHT
-        
-        nkrats1: [169, -14], 
-        nkrats2: [127, -18],
-        nkrats3: [150, -12],
-        nkrats4: [], 
-        nkrats5: [202, -85]
-
-        }
-    
-    
-    }
-
-
-
-
 class visual(turtle.Turtle):
 
     def __init__(self, player_type):
@@ -335,8 +448,6 @@ class visualFigure(visual):
         screen.update()
 
 
-ti = visualFigure('azurea')
-ti.attacking()
 
 
 

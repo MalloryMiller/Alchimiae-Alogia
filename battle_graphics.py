@@ -298,69 +298,148 @@ class GroupOf4Buttons(turtle.Turtle):
 
 class vis_bar(turtle.Turtle):
 
-    def __init__(self, host, side):
+    def __init__(self, host, side, direction = None):
         super().__init__()
         self.host = host
         self.ht()
         
-        
         self.max_val = host.host_value
+        self.num = host.host_value
+        self.direction = direction
+
+        if direction == 'up':
+            self.setheading(90)
+            
+            self.penup()
+            if side == 'left':
+                self.start_bar = [-300, -60]
+                self.goto(self.start_bar[0], self.start_bar[1])
+            else:
+                self.start_bar = [300, -60]
+                self.goto(self.start_bar[0], self.start_bar[1])
+            self.pendown()
+
+            self.color(0, 0, .3)  # darker blue
         
-        self.penup()
-        if side == 'left':
-            self.start_bar = [-320, 240]
-            self.goto(self.start_bar[0], self.start_bar[1])
+        
         else:
-            self.start_bar = [320, 240]
-            self.goto(self.start_bar[0], self.start_bar[1])
-            self.setheading(180)
-        self.pendown()
+            self.penup()
+            if side == 'left':
+                self.start_bar = [-320, 240]
+                self.goto(self.start_bar[0], self.start_bar[1])
+            else:
+                self.start_bar = [320, 240]
+                self.goto(self.start_bar[0], self.start_bar[1])
+                self.setheading(180)
+            self.pendown()
         
 
-        self.color('dark green')
-        self.pensize(15)
-        self.fd(self.max_val * 2)
-        self.fd(self.max_val * -2)
-        self.pensize(10)
-        x = .5
-        for y in range(self.max_val):
-            self.color(0, x, 0)  # bright green
-            x += .002
-            self.fd(2)
+            self.color('dark green')
+
+        if direction == 'up':
+            
+            self.pensize(30)
+            self.fd(self.max_val * 8)
+            self.fd(self.max_val * -8)
+            self.pensize(20)
+
+            b = .5
+            for y in range(int(self.max_val)):
+                self.color(0, 0, b)
+                b += 0.02
+                self.fd(8)
+
+        else:
+            
+            self.pensize(15)
+            self.fd(self.max_val * 2)
+            self.fd(self.max_val * -2)
+            self.pensize(10)
+            
+            g = .5
+            for y in range(self.max_val):
+                self.color(0, g, 0)  # bright green
+                g += .002
+                self.fd(2)
         
         screen.update()
 
-    def change_value(self, value):
+    def change_value(self, value, special_color = None):
+        self.num = value
+        
         self.clear()
         self.penup()
         self.goto(self.start_bar[0], self.start_bar[1])
         self.pendown()
+
+        if self.direction == 'up':
+            self.color(0, 0, .3)
+            if special_color == 'red':
+                self.color(.3, 0, 0)
+            self.pensize(30)
+            self.fd(self.max_val * 8)
+            self.fd(self.max_val * -8)
+            
+            self.pensize(20)      
+
+            b = .5
+            for y in range(int(value)):
+                self.color(0, 0, b)
+                if special_color == 'red':
+                    self.color(b, 0, 0)
+                b += 0.02
+                self.fd(8)
+
+        else:
         
-        self.color('dark green')
-        self.pensize(15)
-        self.fd(self.max_val * 2)
-        self.fd(self.max_val * -2)
-        
-        self.pensize(10)        
-        x = .5
-        for y in range(value):
-            self.color(0, x, 0)  # bright green
-            x += .002
-            self.fd(2)
+            self.color('dark green')
+            self.pensize(15)
+            self.fd(self.max_val * 2)
+            self.fd(self.max_val * -2)
+            
+            self.pensize(10)
+            
+            x = .5
+            for y in range(value):
+                self.color(0, x, 0)  # bright green
+                x += .002
+                self.fd(2)
         screen.update()
-        
-        
-        
 
-
-class health_bar(turtle.Turtle):
-    
+    def not_enough_stam(self):
+        for x in range(3):
+            self.clear()
+            screen.update()
+            t.sleep(.1)
+            self.change_value(self.num, 'red')
+            screen.update()
+            t.sleep(.2)
+        self.change_value(self.num)
+            
+        
+        
+class Bar(turtle.Turtle):
     def __init__(self, host_value, side):
         super().__init__()
         self.ht()
+        self.host_value = host_value
+        self.side = side
+        
+        
+    def change_value(self, value):
+        self.clear()
+        self.write(int(value), False, 'center', ("Calabri", 15, "bold"))
+        self.vis.change_value(value)
+        pass
+
+
+class health_bar(Bar):
+    
+    def __init__(self, host_value, side):
+        super().__init__(host_value, side)
         
         self.penup()
-        if side == 'left':
+        if self.side == 'left':
             self.start_bar = [-300, 250]
             self.goto(self.start_bar[0], self.start_bar[1])
         else:
@@ -369,17 +448,45 @@ class health_bar(turtle.Turtle):
             self.setheading(180)
         self.pendown()
         
-        self.host_value = host_value
-        self.vis = vis_bar(self, side)
-        
         self.color(.6, .9, .6)  # pale green
         self.write(host_value, False, 'center', ("Calabri", 15, "bold"))
         
-    def change_value(self, value):
+
+        self.vis = vis_bar(self, side)
+
+class stamina_bar(Bar):
+
+    def __init__(self, host_value, side):
+        super().__init__(host_value, side)
+        
+        self.penup()
+        if self.side == 'left':
+            self.start_bar = [-300, -100]
+            self.goto(self.start_bar[0], self.start_bar[1])
+        else:
+            self.start_bar = [300, -100]
+            self.goto(self.start_bar[0], self.start_bar[1])
+            self.setheading(180)
+        self.pendown()
+        
+        self.color(.75, .75, .9)  # pale blue
+        self.write(host_value, False, 'center', ("Calabri", 15, "bold"))
+
+        self.vis = vis_bar(self, side, 'up')
+
+    def not_enough_stam(self):
         self.clear()
-        self.write(value, False, 'center', ("Calabri", 15, "bold"))
-        self.vis.change_value(value)
-        pass
+        self.color(.9, .75, .75)  # pale red
+        self.write(int(self.vis.num), False, 'center', ("Calabri", 15, "bold"))
+
+        self.vis.not_enough_stam()
+
+        self.clear()
+        
+        self.color(.75, .75, .9)  # pale blue
+        self.write(int(self.vis.num), False, 'center', ("Calabri", 15, "bold"))
+
+        
 
 
 
@@ -446,8 +553,5 @@ class visualFigure(visual):
     def lose(self):
         self.change_image(self.shapes[4])
         screen.update()
-
-
-
 
 

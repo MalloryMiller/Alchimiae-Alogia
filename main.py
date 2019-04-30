@@ -1,11 +1,11 @@
 import turtle
-import graphics as g
+import battle_graphics as g
 import player_types as pt
 
 g.screen.tracer(1000, 1000)
 
 
-def main():
+def pve():
     
     random_player = pt.r.randint(0, 1)
     random_enemy = 0  # pt.r.randint(0, 1)
@@ -42,7 +42,7 @@ def main():
     def enemys_turn():
         enemy.begin_turn()
         
-        if enemy.health < 50:
+        if enemy.health < pt.r.randint(15, 50):
             enemy.act4(player)
         elif enemy.stamina > 15:
             enemy.act3(player)
@@ -54,13 +54,10 @@ def main():
             else:
                 enemy.act1(player)
 
-        print("\n")
-        print("Enemy Health:", enemy.health, "\nEnemy Stamina:", enemy.stamina)
-        print("Player Health:", player.health, "\nPlayer Stamina:", player.stamina)
-
 
 
         player.begin_turn()
+
 
 
     def nullkeys():
@@ -90,10 +87,6 @@ def main():
     def enter():
         nullkeys()
         action_ordered[actions.select_opt](enemy)
-        
-        print("\n")
-        print("Enemy Health:", enemy.health, "\nEnemy Stamina:", enemy.stamina)
-        print("Player Health:", player.health, "\nPlayer Stamina:", player.stamina)
 
         enemys_turn()
         castBattlekeys()
@@ -101,9 +94,11 @@ def main():
 
     castBattlekeys()
     g.screen.update()
+    
     turtle.listen()
-    g.screen.mainloop()
+    
 
 
 
-main()
+pve()
+g.screen.mainloop()

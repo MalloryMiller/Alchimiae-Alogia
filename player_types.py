@@ -1,17 +1,19 @@
 import random as r
-import graphics as g
+import battle_graphics as g
 
 
 buff = 25
 stamina_buff = 5
 
-randomness = 10
+randomness = 15
 atkdef_divider = 5
 
 full_health = 100
 full_strength = 100
 full_stamina = 20
 full_defense = 100
+
+heal_rate = 40
 
 
 
@@ -39,12 +41,13 @@ enemy_names = [
 class Player():
     def __init__(self, name):
         self.name = str(name)
-        self.buff_status_time = 0
         
         self.health = full_health
         self.strength = full_strength
         self.stamina = full_stamina
         self.defense = full_defense
+
+        self.act_names = ['', '', '', '']
         
         self.full_health = full_health
         self.full_strength = full_strength
@@ -52,7 +55,7 @@ class Player():
         self.full_defense = full_defense
 
         
-    def lost(self):
+    def check_lost(self):
 
         if self.health <= 0:
             self.visual.lose()
@@ -60,30 +63,57 @@ class Player():
         else:
             return False
     
+
+
     
-    def end_turn(self):
-        self.buff_status_time -= 1
+    def end_turn(self, enemy):
+        enemy.begin_turn()
+
+
+
+
 
 
     def begin_turn(self):
-        self.stamina += 2
+
+        if self.health <= 0:
+            return
+        
+        elif self.stamina + 2 >= self.full_stamina:
+            self.stamina = self.full_stamina
+            
+        else:
+            self.stamina += 2
+        self.stamina_bar.change_value(self.stamina)
 
 
-    def attack(self, target, atk_name, multiplier = 2):
-        damage = (self.strength // atkdef_divider) \
-                 * multiplier + (r.randint(0, randomness))
+
+
+
+
+    def attack(self, target, atk_name, multiplier = 1):
+        damage = ((self.strength // atkdef_divider) \
+                 * multiplier) + (r.randint(0, randomness))
 
         print(self.name, "has attacked", target.name, "with", atk_name + ",")
-
-        self.visual.attacking()
         
-        if multiplier * 1.5 <= self.stamina:
+        if multiplier * 3 <= self.stamina:
+            
+            self.stamina -= multiplier * 3
+            self.stamina_bar.change_value(self.stamina)
+            
+            self.visual.attacking()
             target.take_damage(self, damage)
-            self.stamina -= multiplier * 1.5
+            
         else:
             print("but they didn't have enough stamina.")
+            self.stamina_bar.not_enough_stam()
             
-        self.end_turn()
+        self.end_turn(target)
+
+
+
+
 
         
     def take_damage(self, attacker, damage):
@@ -97,14 +127,15 @@ class Player():
               attacker.name + "'s attack.")
         self.visual.take_damage()
 
-        if self.lost():
-            return True
-        else:
-            self.begin_turn()
+        self.check_lost()
+
+
+
+
 
 
     def heal(self, enemy, heal_name):
-        heal = (self.full_health // 4) + r.randint(0, randomness)
+        heal = heal_rate + r.randint(0, randomness)
         maxim = False
         
         if self.health + heal > self.full_health:
@@ -117,20 +148,39 @@ class Player():
         
         print(self.name, "has healed", heal, "health points with a", heal_name + ".")
         self.stamina -= 2
+        self.stamina_bar.change_value(self.stamina)
         if maxim == True:
             print(self.name, "is at full health!")
 
         self.visual.healing()
 
-        self.end_turn()
-        enemy.begin_turn()
+        self.end_turn(enemy)
 
 
 
 
 
 
-class Alchemist(Player): #Light
+    def act1(self, target):
+        self.attack(target, self.actNames[0])
+
+    def act2(self, target):
+        self.attack(target, self.actNames[1], 2)
+
+
+    def act3(self, target):
+        self.attack(target, self.actNames[2], 3)
+
+
+    def act4(self, target):
+        self.heal(target, self.actNames[3])
+
+
+
+
+
+
+class Alchemist(Player): # Light
     def __init__(self, name, enemy_t_or_f):
         super().__init__(name)
         self.actNames = [
@@ -146,31 +196,20 @@ class Alchemist(Player): #Light
         if enemy_t_or_f == True:
             self.visual = g.visualFigure("mehcla")
             self.health_bar = g.health_bar(self.full_health, 'right')
+            self.stamina_bar = g.stamina_bar(self.full_stamina, 'right')
         else:
             self.visual = g.visualFigure("alchem")
             self.health_bar = g.health_bar(self.full_health, 'left')
-
-
-    def act1(self, target):
-        self.attack(target, self.actNames[0])
-
-    def act2(self, target):
-        self.attack(target, self.actNames[1], 3)
-
-
-    def act3(self, target):
-        self.attack(target, self.actNames[2], 5)
-
-
-    def act4(self, target):
-        self.heal(target, self.actNames[3])
+            self.stamina_bar = g.stamina_bar(self.full_stamina, 'left')
 
 
 
 
 
 
-class AzureArcher(Player): #Water
+
+
+class AzureArcher(Player): # Water
     def __init__(self, name, enemy_t_or_f):
         super().__init__(name)
 
@@ -189,32 +228,20 @@ class AzureArcher(Player): #Water
         if enemy_t_or_f == True:
             self.visual = g.visualFigure("aeruza")
             self.health_bar = g.health_bar(self.full_health, 'right')
+            self.stamina_bar = g.stamina_bar(self.full_stamina, 'right')
         else:
             self.visual = g.visualFigure("azurea")
             self.health_bar = g.health_bar(self.full_health, 'left')
-
-
-    def act1(self, target):
-        self.attack(target, self.actNames[0])
-
-
-    def act2(self, target):
-        self.attack(target, self.actNames[1], 4)
-
-
-    def act3(self, target):
-        self.attack(target, self.actNames[2], 6)
-
-
-    def act4(self, target):
-        self.heal(target, self.actNames[3])
+            self.stamina_bar = g.stamina_bar(self.full_stamina, 'left')
 
 
 
 
 
 
-class IncendiaryWarrior(Player): #Fire
+
+
+class IncendiaryWarrior(Player): # Fire
     def __init__(self, name, enemy_t_or_f):
         super().__init__(name)
         
@@ -233,31 +260,18 @@ class IncendiaryWarrior(Player): #Fire
         if enemy_t_or_f == True:
             self.visual = g.visualFigure("rawcni")
             self.health_bar = g.health_bar(self.full_health, 'right')
+            self.stamina_bar = g.stamina_bar(self.full_stamina, 'right')
         else:
             self.visual = g.visualFigure("incwar")
             self.health_bar = g.health_bar(self.full_health, 'left')
-        
-
-    def act1(self, target):
-        self.attack(target, self.actNames[0])
-
-
-    def act2(self, target):
-        self.attack(target, self.actNames[1], 3)
-
-
-    def act3(self, target):
-        self.attack(target, self.actNames[2], 5)
-
-
-    def act4(self, target):
-        self.heal(target, self.actNames[3])
+            self.stamina_bar = g.stamina_bar(self.full_stamina, 'left')
 
 
 
 
 
-class StarryKnight(Player): #Darkness
+
+class StarryKnight(Player): # Darkness
     def __init__(self, name, enemy_t_or_f):
         super().__init__(name)
         
@@ -276,25 +290,12 @@ class StarryKnight(Player): #Darkness
         if enemy_t_or_f == True:
             self.visual = g.visualFigure("nkrats")
             self.health_bar = g.health_bar(self.full_health, 'right')
+            self.stamina_bar = g.stamina_bar(self.full_stamina, 'right')
         else:
             self.visual = g.visualFigure("starkn")
             self.health_bar = g.health_bar(self.full_health, 'left')
+            self.stamina_bar = g.stamina_bar(self.full_stamina, 'left')
         
-
-    def act1(self, target):
-        self.attack(target, self.actNames[0])
-
-
-    def act2(self, target):
-        self.attack(target, self.actNames[1], 3)
-
-
-    def act3(self, target):
-        self.attack(target, self.actNames[2], 5)
-
-
-    def act4(self, target):
-        self.heal(target, self.actNames[3])
 
 
 

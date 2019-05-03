@@ -1,8 +1,9 @@
 import turtle
 import time as t
 
+
 screen = turtle.Screen()
-screen.tracer(100, 100)
+screen.tracer(1000, 1000)
 
 # self.write("    " + name, False, 'left', ("Arial", 15, 'bold'))
 
@@ -40,31 +41,31 @@ aeruza5 = 'aeruza5.gif'
 
 
 
-incwar1 = 'incwar.gif'
-incwar2 = '.gif'
-incwar3 = '.gif'
-incwar4 = '.gif'
-incwar5 = '.gif'
+incwar1 = 'incwar1.gif'
+incwar2 = 'incwar2.gif'
+incwar3 = 'incwar3.gif'
+incwar4 = 'incwar4.gif'
+incwar5 = 'incwar5.gif'
 
-rawcni1 = '.gif'
-rawcni2 = '.gif'
-rawcni3 = '.gif'
-rawcni4 = '.gif'
-rawcni5 = '.gif'
+rawcni1 = 'rawcni1.gif'
+rawcni2 = 'rawcni2.gif'
+rawcni3 = 'rawcni3.gif'
+rawcni4 = 'rawcni4.gif'
+rawcni5 = 'rawcni5.gif'
 
 
 
-starkn1 = '.gif'
-starkn2 = '.gif'
-starkn3 = '.gif'
-starkn4 = '.gif'
-starkn5 = '.gif'
+starkn1 = 'starkn1.gif'
+starkn2 = 'starkn2.gif'
+starkn3 = 'starkn3.gif'
+starkn4 = 'starkn4.gif'
+starkn5 = 'starkn5.gif'
 
-nkrats1 = '.gif'
-nkrats2 = '.gif'
-nkrats3 = '.gif'
-nkrats4 = '.gif'
-nkrats5 = '.gif'
+nkrats1 = 'nkrats1.gif'
+nkrats2 = 'nkrats2.gif'
+nkrats3 = 'nkrats3.gif'
+nkrats4 = 'nkrats4.gif'
+nkrats5 = 'nkrats5.gif'
 
 
 
@@ -100,19 +101,19 @@ screen.addshape(aeruza4)
 screen.addshape(aeruza5)
 
 
-##screen.addshape(incwar1)
-##screen.addshape(incwar2)
-##screen.addshape(incwar3)
-##screen.addshape(incwar4)
-##screen.addshape(incwar5)
-##
-##screen.addshape(rawcni1)
-##screen.addshape(rawcni2)
-##screen.addshape(rawcni3)
-##screen.addshape(rawcni4)
-##screen.addshape(rawcni5)
-##
-##
+screen.addshape(incwar1)
+screen.addshape(incwar2)
+screen.addshape(incwar3)
+screen.addshape(incwar4)
+screen.addshape(incwar5)
+
+screen.addshape(rawcni1)
+screen.addshape(rawcni2)
+screen.addshape(rawcni3)
+screen.addshape(rawcni4)
+screen.addshape(rawcni5)
+
+
 ##screen.addshape(starkn1)
 ##screen.addshape(starkn2)
 ##screen.addshape(starkn3)
@@ -131,86 +132,86 @@ screen.addshape(aeruza5)
 image_coords = {
 
     "alchem": {  # PLAYER ALCHEMIST
-        
-        alchem1: [-161, -13],  # image_displayed: [coordx, coordy], 
+
+        alchem1: [-161, -13],  # image_displayed: [coordx, coordy],
         alchem2: [-143, -20],
         alchem3: [-148, -10],
-        alchem4: [-156, -14], 
+        alchem4: [-156, -14],
         alchem5: [-198, -83]
 
-        }, 
-    
+        },
+
     "mehcla": {  # ENEMY ALCHEMIST
-        
-        mehcla1: [169, -14], 
+
+        mehcla1: [169, -14],
         mehcla2: [127, -18],
         mehcla3: [150, -12],
-        mehcla4: [154, -13], 
+        mehcla4: [154, -13],
         mehcla5: [202, -85]
 
         },
 
     "azurea": {  # PLAYER ARCHER
-        
-        azurea1: [-161, -36], 
+
+        azurea1: [-161, -36],
         azurea2: [-119, -34],
         azurea3: [-205, -54],
-        azurea4: [-185, -91], 
+        azurea4: [-185, -91],
         azurea5: [-179, -89]
 
-        }, 
-    
+        },
+
     "aeruza": {  # ENEMY ARCHER
-        
-        aeruza1: [175, -34], 
+
+        aeruza1: [175, -34],
         aeruza2: [116, -36],
         aeruza3: [201, -54],
-        aeruza4: [181, -92], 
+        aeruza4: [181, -92],
         aeruza5: [176, -86]
 
         },
 
     "incwar": {  # PLAYER WARRIOR
-        
-        incwar1: [-161, -13], 
-        incwar2: [-143, -20],
-        incwar3: [-148, -10],
-        incwar4: [], 
-        incwar5: [-198, -83]
 
-        }, 
-    
+        incwar1: [-162, 7],
+        incwar2: [-125, 6],
+        incwar3: [-178, 25],
+        incwar4: [-151, 5],
+        incwar5: [-173, -70]
+
+        },
+
     "rawcni": {  # ENEMY WARRIOR
-        
-        rawcni1: [169, -14], 
-        rawcni2: [127, -18],
-        rawcni3: [150, -12],
-        rawcni4: [], 
-        rawcni5: [202, -85]
+
+        rawcni1: [161, 7],
+        rawcni2: [124, 4],
+        rawcni3: [176, 26],
+        rawcni4: [148, 7],
+        rawcni5: [178, -66]
 
         },
 
     "starkn": {  # PLAYER KNIGHT
-        
-        starkn1: [-161, -13], 
+
+        starkn1: [-161, -13],
         starkn2: [-143, -20],
         starkn3: [-148, -10],
-        starkn4: [], 
+        starkn4: [],
         starkn5: [-198, -83]
 
-        }, 
-    
+        },
+
     "nkrats": {  # ENEMY KNIGHT
-        
-        nkrats1: [169, -14], 
+
+        nkrats1: [169, -14],
         nkrats2: [127, -18],
         nkrats3: [150, -12],
-        nkrats4: [], 
+        nkrats4: [],
         nkrats5: [202, -85]
 
         }
-    
-    
+
+
     }
 
 
@@ -223,8 +224,11 @@ screen.bgpic(bckgrd)
 
 button_coords = [-240, -80, 80, 240]
 
+
+# BUTTONS
+
 class Button(turtle.Turtle):
-    def __init__(self, lable, x):
+    def __init__(self, lable, x, unavailable_level):
         super().__init__()
 
         self.penup()
@@ -244,7 +248,7 @@ class Button(turtle.Turtle):
             self.write(lable, False, 'center', ("Calabri", 15, "bold"))
 
         self.goto(x, -200)
-        self.available = True
+        self.cutoff = unavailable_level
         self.lable = lable
 
     def unavailable(self):
@@ -253,23 +257,27 @@ class Button(turtle.Turtle):
     def available(self):
         self.shape(image1)
 
-    def select(self):
-        print("whoa", lable)
+    def option_selected(self, stamina_leftover):
+        if stamina_leftover < self.cutoff:
+            self.unavailable()
+        else:
+            self.available()
+            
 
 
 
 class GroupOf4Buttons(turtle.Turtle):
-    def __init__(self, lables):
+    def __init__(self, lables, cutoff_stamina):
         super().__init__()
 
         self.penup()
         self.setheading(90)
         self.speed(100)
 
-        self.ch1 = Button(lables[0], button_coords[0])
-        self.ch2 = Button(lables[1], button_coords[1])
-        self.ch3 = Button(lables[2], button_coords[2])
-        self.ch4 = Button(lables[3], button_coords[3])
+        self.ch1 = Button(lables[0], button_coords[0], cutoff_stamina[0])
+        self.ch2 = Button(lables[1], button_coords[1], cutoff_stamina[1])
+        self.ch3 = Button(lables[2], button_coords[2], cutoff_stamina[2])
+        self.ch4 = Button(lables[3], button_coords[3], cutoff_stamina[3])
         self.buttons = [self.ch1, self.ch2, self.ch3, self.ch4]
 
         self.shape('classic')
@@ -284,32 +292,69 @@ class GroupOf4Buttons(turtle.Turtle):
 
     def select_button(self, change_opt):
         self.select_opt += change_opt
-        
+
         if self.select_opt > 3:
             self.select_opt = 0
         elif self.select_opt < 0:
             self.select_opt = 3
         self.goto(button_coords[self.select_opt], -240)
-        
+
         return self.select_opt
 
 
+
+
+
+# ONSCREEN TEXT
+
+
+class flavorText(turtle.Turtle):
+    def __init__(self, side):
+        super().__init__()
+        self.penup()
+        if side == 'left':
+            self.goto(-320, 200)
+        else:
+            self.goto(320, 200)
+        self.pendown()
+
+
+        self.ht()
+        self.color('white')
+        self.text = ''
+        self.side = side
+        self.write(self.text, False, self.side, ("Calabri", 7, "italic"))
+
+    def change_text(self, update_as):
+        self.clear()
+        self.text = update_as
+        self.write(self.text, False, self.side, ("Calabri", 7, "italic"))
+
+
+                   
     
 
+
+
+
+# HEALTH + STAMINA BARS
+
+
 class vis_bar(turtle.Turtle):
+
 
     def __init__(self, host, side, direction = None):
         super().__init__()
         self.host = host
         self.ht()
-        
+
         self.max_val = host.host_value
         self.num = host.host_value
         self.direction = direction
 
         if direction == 'up':
             self.setheading(90)
-            
+
             self.penup()
             if side == 'left':
                 self.start_bar = [-300, -60]
@@ -320,8 +365,8 @@ class vis_bar(turtle.Turtle):
             self.pendown()
 
             self.color(0, 0, .3)  # darker blue
-        
-        
+
+
         else:
             self.penup()
             if side == 'left':
@@ -332,12 +377,12 @@ class vis_bar(turtle.Turtle):
                 self.goto(self.start_bar[0], self.start_bar[1])
                 self.setheading(180)
             self.pendown()
-        
+
 
             self.color('dark green')
 
         if direction == 'up':
-            
+
             self.pensize(30)
             self.fd(self.max_val * 8)
             self.fd(self.max_val * -8)
@@ -350,23 +395,25 @@ class vis_bar(turtle.Turtle):
                 self.fd(8)
 
         else:
-            
+
             self.pensize(15)
             self.fd(self.max_val * 2)
             self.fd(self.max_val * -2)
             self.pensize(10)
-            
+
             g = .5
             for y in range(self.max_val):
                 self.color(0, g, 0)  # bright green
                 g += .002
                 self.fd(2)
-        
+
         screen.update()
+
+
 
     def change_value(self, value, special_color = None):
         self.num = value
-        
+
         self.clear()
         self.penup()
         self.goto(self.start_bar[0], self.start_bar[1])
@@ -379,8 +426,8 @@ class vis_bar(turtle.Turtle):
             self.pensize(30)
             self.fd(self.max_val * 8)
             self.fd(self.max_val * -8)
-            
-            self.pensize(20)      
+
+            self.pensize(20)
 
             b = .5
             for y in range(int(value)):
@@ -391,20 +438,21 @@ class vis_bar(turtle.Turtle):
                 self.fd(8)
 
         else:
-        
+
             self.color('dark green')
             self.pensize(15)
             self.fd(self.max_val * 2)
             self.fd(self.max_val * -2)
-            
+
             self.pensize(10)
-            
+
             x = .5
             for y in range(value):
                 self.color(0, x, 0)  # bright green
                 x += .002
                 self.fd(2)
         screen.update()
+
 
     def not_enough_stam(self):
         for x in range(3):
@@ -415,17 +463,18 @@ class vis_bar(turtle.Turtle):
             screen.update()
             t.sleep(.2)
         self.change_value(self.num)
-            
-        
-        
+
+
+
+
 class Bar(turtle.Turtle):
     def __init__(self, host_value, side):
         super().__init__()
         self.ht()
         self.host_value = host_value
         self.side = side
-        
-        
+
+
     def change_value(self, value):
         self.clear()
         self.write(int(value), False, 'center', ("Calabri", 15, "bold"))
@@ -433,11 +482,12 @@ class Bar(turtle.Turtle):
         pass
 
 
+
 class health_bar(Bar):
-    
+
     def __init__(self, host_value, side):
         super().__init__(host_value, side)
-        
+
         self.penup()
         if self.side == 'left':
             self.start_bar = [-300, 250]
@@ -447,10 +497,10 @@ class health_bar(Bar):
             self.goto(self.start_bar[0], self.start_bar[1])
             self.setheading(180)
         self.pendown()
-        
+
         self.color(.6, .9, .6)  # pale green
         self.write(host_value, False, 'center', ("Calabri", 15, "bold"))
-        
+
 
         self.vis = vis_bar(self, side)
 
@@ -458,7 +508,7 @@ class stamina_bar(Bar):
 
     def __init__(self, host_value, side):
         super().__init__(host_value, side)
-        
+
         self.penup()
         if self.side == 'left':
             self.start_bar = [-300, -100]
@@ -468,7 +518,7 @@ class stamina_bar(Bar):
             self.goto(self.start_bar[0], self.start_bar[1])
             self.setheading(180)
         self.pendown()
-        
+
         self.color(.75, .75, .9)  # pale blue
         self.write(host_value, False, 'center', ("Calabri", 15, "bold"))
 
@@ -482,16 +532,16 @@ class stamina_bar(Bar):
         self.vis.not_enough_stam()
 
         self.clear()
-        
+
         self.color(.75, .75, .9)  # pale blue
         self.write(int(self.vis.num), False, 'center', ("Calabri", 15, "bold"))
 
-        
 
 
 
+# PLAYER AND ENEMY DRAWINGS
 
-    
+
 class visual(turtle.Turtle):
 
     def __init__(self, player_type):
@@ -501,10 +551,10 @@ class visual(turtle.Turtle):
         self.playert = player_type
 
     def change_image(self, image):
-        
+
         self.goto(image_coords[self.playert][image][0],
                   image_coords[self.playert][image][1])
-        
+
         self.shape(image)
         screen.update()
 
@@ -513,18 +563,18 @@ class visual(turtle.Turtle):
 class visualFigure(visual):
 
     def __init__(self, player_type):
-        
+
         super().__init__(player_type)
-        
+
         self.shapes = []
         for k in image_coords[self.playert]:
             self.shapes.append(k)
-            
+
         self.goto(image_coords[self.playert][self.shapes[0]][0],
                   image_coords[self.playert][self.shapes[0]][1])
-        
+
         self.shape(self.shapes[0])
-        
+
         screen.update()
 
 
@@ -553,5 +603,6 @@ class visualFigure(visual):
     def lose(self):
         self.change_image(self.shapes[4])
         screen.update()
+
 
 

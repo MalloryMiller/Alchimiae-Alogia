@@ -9,11 +9,13 @@ randomness = 15
 atkdef_divider = 5
 
 full_health = 100
-full_strength = 100
+full_strength = 50
 full_stamina = 20
-full_defense = 100
+full_defense = 50
 
 heal_rate = 40
+
+stamina_cutoffs = [3, 6, 12, 2]
 
 
 
@@ -46,6 +48,8 @@ class Player():
         self.strength = full_strength
         self.stamina = full_stamina
         self.defense = full_defense
+        
+        self.text = g.flavorText('left')
 
         self.act_names = ['', '', '', '']
         
@@ -94,10 +98,13 @@ class Player():
     def attack(self, target, atk_name, multiplier = 1):
         damage = ((self.strength // atkdef_divider) \
                  * multiplier) + (r.randint(0, randomness))
-
-        print(self.name, "has attacked", target.name, "with", atk_name + ",")
         
         if multiplier * 3 <= self.stamina:
+
+            self.text.change_text(str(
+                self.name + " has attacked " + target.name +
+                " with " + atk_name + ".")
+                                  )
             
             self.stamina -= multiplier * 3
             self.stamina_bar.change_value(self.stamina)
@@ -106,7 +113,10 @@ class Player():
             target.take_damage(self, damage)
             
         else:
-            print("but they didn't have enough stamina.")
+            self.text.change_text(str(
+                self.name + " tried to attack " + target.name +
+                " with " + atk_name + ", " + "but they didn't have enough stamina.")
+                                      )
             self.stamina_bar.not_enough_stam()
             
         self.end_turn(target)
@@ -123,8 +133,10 @@ class Player():
 
         self.health_bar.change_value(self.health)
         
-        print(self.name, "has taken", damage, "points of damage from", \
+        self.text.change_text(str(
+            self.name + " has taken " + str(damage) + " points of damage from " + \
               attacker.name + "'s attack.")
+                              )
         self.visual.take_damage()
 
         self.check_lost()
@@ -141,18 +153,35 @@ class Player():
         if self.health + heal > self.full_health:
             maxim = True
             heal = self.full_health - self.health
+
+
+
+        if self.stamina >= 2:
             
-        self.health += heal
+            self.health += heal
 
-        self.health_bar.change_value(self.health)
-        
-        print(self.name, "has healed", heal, "health points with a", heal_name + ".")
-        self.stamina -= 2
-        self.stamina_bar.change_value(self.stamina)
+            self.health_bar.change_value(self.health)
+            
+            self.text.change_text(str(
+                self.name + " has healed " + str(heal) +
+                " health points with a " + heal_name + ".")
+                              )
+            self.stamina -= 2
+            self.visual.healing()
+            self.stamina_bar.change_value(self.stamina)
+
+        else:
+                self.text.change_text(str(
+                    self.name + " was too tired to heal with " + heal_name + ".")
+                                      )
+
+
+
         if maxim == True:
-            print(self.name, "is at full health!")
+            self.text.change_text(str(
+                self.name + " is at full health!")
+                                  )
 
-        self.visual.healing()
 
         self.end_turn(enemy)
 
@@ -169,7 +198,7 @@ class Player():
 
 
     def act3(self, target):
-        self.attack(target, self.actNames[2], 3)
+        self.attack(target, self.actNames[2], 4)
 
 
     def act4(self, target):
@@ -183,6 +212,8 @@ class Player():
 class Alchemist(Player): # Light
     def __init__(self, name, enemy_t_or_f):
         super().__init__(name)
+        self.enemy = enemy_t_or_f
+        
         self.actNames = [
             "Blinding Barrage",
             "Splash Poison",
@@ -197,6 +228,7 @@ class Alchemist(Player): # Light
             self.visual = g.visualFigure("mehcla")
             self.health_bar = g.health_bar(self.full_health, 'right')
             self.stamina_bar = g.stamina_bar(self.full_stamina, 'right')
+            self.text = g.flavorText('right')
         else:
             self.visual = g.visualFigure("alchem")
             self.health_bar = g.health_bar(self.full_health, 'left')
@@ -212,7 +244,9 @@ class Alchemist(Player): # Light
 class AzureArcher(Player): # Water
     def __init__(self, name, enemy_t_or_f):
         super().__init__(name)
-
+        
+        self.enemy = enemy_t_or_f
+        
         self.actNames = [
 
             "Triple Arrow",
@@ -229,6 +263,8 @@ class AzureArcher(Player): # Water
             self.visual = g.visualFigure("aeruza")
             self.health_bar = g.health_bar(self.full_health, 'right')
             self.stamina_bar = g.stamina_bar(self.full_stamina, 'right')
+            self.text = g.flavorText('right')
+
         else:
             self.visual = g.visualFigure("azurea")
             self.health_bar = g.health_bar(self.full_health, 'left')
@@ -244,6 +280,8 @@ class AzureArcher(Player): # Water
 class IncendiaryWarrior(Player): # Fire
     def __init__(self, name, enemy_t_or_f):
         super().__init__(name)
+        
+        self.enemy = enemy_t_or_f
         
         self.actNames = [
 
@@ -261,6 +299,8 @@ class IncendiaryWarrior(Player): # Fire
             self.visual = g.visualFigure("rawcni")
             self.health_bar = g.health_bar(self.full_health, 'right')
             self.stamina_bar = g.stamina_bar(self.full_stamina, 'right')
+            self.text = g.flavorText('right')
+
         else:
             self.visual = g.visualFigure("incwar")
             self.health_bar = g.health_bar(self.full_health, 'left')
@@ -274,6 +314,8 @@ class IncendiaryWarrior(Player): # Fire
 class StarryKnight(Player): # Darkness
     def __init__(self, name, enemy_t_or_f):
         super().__init__(name)
+        
+        self.enemy = enemy_t_or_f
         
         self.actNames = [
             
@@ -291,6 +333,8 @@ class StarryKnight(Player): # Darkness
             self.visual = g.visualFigure("nkrats")
             self.health_bar = g.health_bar(self.full_health, 'right')
             self.stamina_bar = g.stamina_bar(self.full_stamina, 'right')
+            self.text = g.flavorText('right')
+
         else:
             self.visual = g.visualFigure("starkn")
             self.health_bar = g.health_bar(self.full_health, 'left')

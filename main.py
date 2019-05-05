@@ -3,11 +3,19 @@ import battle_graphics as g
 import player_types as pt
 
 g.screen.tracer(1000, 1000)
+g.screen.bgcolor(0, 0, 0)
 
 
-key_left_option = 'Left'
-key_right_option = 'Right'
-key_choose_option = 'Return'
+
+
+battle_keys_file = open('key_settings.txt', 'r')
+list_keys = battle_keys_file.readlines()
+
+key_left_option = list_keys[0]
+key_right_option = list_keys[1]
+key_choose_option = list_keys[2]
+key_restart = list_keys[3]
+key_menue = list_keys[4]
 
 
 
@@ -18,13 +26,31 @@ def mainscreen():
 def settingscreen():
     pass
 
+def default_keys():
+    pass
+
 
 def pve():
 
-    random_player = pt.r.randint(0, 2)
-    random_enemy = pt.r.randint(0, 1)
+    g.screen.clear()
+    g.screen.bgpic(g.bckgrd_stage)
+    g.screen.tracer(1000, 1000)
 
-    possible_players = pt.player_types
+
+    
+    possible_players = [
+    
+        pt.Alchemist,
+        pt.AzureArcher,
+        pt.IncendiaryWarrior,
+        pt.StarryKnight
+
+        ]
+
+
+    random_player = pt.r.randint(0, 3)
+    random_enemy = pt.r.randint(0, 2)
+
 
 
     player = possible_players.pop(random_player)\
@@ -57,7 +83,9 @@ def pve():
     def enemys_turn():
         enemy.begin_turn()
 
-        nullkeys()
+        if enemy.health <= 0:
+            return True
+
 
         if enemy.health < pt.r.randint(15, 50):
             enemy.act4(player)
@@ -83,10 +111,12 @@ def pve():
         for b in actions.buttons:
             b.option_selected(player.stamina)
             
-        
+
+        turtle.onkey(pve, key_menue)
         turtle.onkey(None, key_left_option)
         turtle.onkey(None, key_right_option)
         turtle.onkey(None, key_choose_option)
+        turtle.onkey(None, key_restart)
         actions.ht()
         g.screen.update()
 
@@ -95,12 +125,21 @@ def pve():
         for b in actions.buttons:
             b.option_selected(player.stamina)
             
-    
+
+        turtle.onkey(pve, key_menue)
         turtle.onkey(left, key_left_option)
         turtle.onkey(right, key_right_option)
         turtle.onkey(enter, key_choose_option)
+        turtle.onkey(None, key_restart)
         actions.st()
         g.screen.update()
+
+    def castEndscreenkeys():
+        turtle.onkey(pve, key_menue)
+        turtle.onkey(None, key_left_option)
+        turtle.onkey(None, key_right_option)
+        turtle.onkey(None, key_choose_option)
+        turtle.onkey(pve, key_restart)
 
 
 
@@ -117,9 +156,13 @@ def pve():
     def enter():
         nullkeys()
 
-        action_ordered[actions.select_opt](enemy)
+        if action_ordered[actions.select_opt](enemy):
+            castEndscreenkeys()
+            return
 
-        enemys_turn()
+        if enemys_turn():
+            castEndscreenkeys()
+            return
         castBattlekeys()
 
 

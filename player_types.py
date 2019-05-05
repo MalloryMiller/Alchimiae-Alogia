@@ -58,6 +58,7 @@ class Player():
         self.full_stamina = full_stamina
         self.full_defense = full_defense
 
+
         
     def check_lost(self):
 
@@ -98,6 +99,7 @@ class Player():
     def attack(self, target, atk_name, multiplier = 1):
         damage = ((self.strength // atkdef_divider) \
                  * multiplier) + (r.randint(0, randomness))
+        self.enemy = target
         
         if multiplier * 3 <= self.stamina:
 
@@ -110,7 +112,11 @@ class Player():
             self.stamina_bar.change_value(self.stamina)
             
             self.visual.attacking()
-            target.take_damage(self, damage)
+            
+            if target.take_damage(self, damage):
+                g.game_over(self, target, atk_name)
+                return True
+                
             
         else:
             self.text.change_text(str(
@@ -139,7 +145,8 @@ class Player():
                               )
         self.visual.take_damage()
 
-        self.check_lost()
+        if self.check_lost():
+            return True
 
 
 
@@ -213,6 +220,11 @@ class Alchemist(Player): # Light
     def __init__(self, name, enemy_t_or_f):
         super().__init__(name)
         self.enemy = enemy_t_or_f
+
+        if self.enemy:
+            self.t = 'The Enemy has'
+        else:
+            self.t = 'You have'
         
         self.actNames = [
             "Blinding Barrage",
@@ -246,6 +258,11 @@ class AzureArcher(Player): # Water
         super().__init__(name)
         
         self.enemy = enemy_t_or_f
+        
+        if self.enemy:
+            self.t = 'The Enemy has'
+        else:
+            self.t = 'You have'
         
         self.actNames = [
 
@@ -282,6 +299,11 @@ class IncendiaryWarrior(Player): # Fire
         super().__init__(name)
         
         self.enemy = enemy_t_or_f
+
+        if self.enemy:
+            self.t = 'The Enemy has'
+        else:
+            self.t = 'You have'
         
         self.actNames = [
 
@@ -316,6 +338,11 @@ class StarryKnight(Player): # Darkness
         super().__init__(name)
         
         self.enemy = enemy_t_or_f
+        
+        if self.enemy:
+            self.t = 'The Enemy has'
+        else:
+            self.t = 'You have'
         
         self.actNames = [
             

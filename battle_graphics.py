@@ -3,7 +3,7 @@ import time as t
 
 
 screen = turtle.Screen()
-screen.tracer(1000, 1000)
+
 
 # self.write("    " + name, False, 'left', ("Arial", 15, 'bold'))
 
@@ -69,7 +69,8 @@ nkrats5 = 'nkrats5.gif'
 
 
 
-bckgrd = 'stage.gif'
+bckgrd_stage = 'stage.gif'
+bckgrd_curtain = 'curtain.gif'
 
 
 screen.addshape(image1)
@@ -114,17 +115,17 @@ screen.addshape(rawcni4)
 screen.addshape(rawcni5)
 
 
-##screen.addshape(starkn1)
-##screen.addshape(starkn2)
-##screen.addshape(starkn3)
-##screen.addshape(starkn4)
-##screen.addshape(starkn5)
-##
-##screen.addshape(nkrats1)
-##screen.addshape(nkrats2)
-##screen.addshape(nkrats3)
-##screen.addshape(nkrats4)
-##screen.addshape(nkrats5)
+screen.addshape(starkn1)
+screen.addshape(starkn2)
+screen.addshape(starkn3)
+screen.addshape(starkn4)
+screen.addshape(starkn5)
+
+screen.addshape(nkrats1)
+screen.addshape(nkrats2)
+screen.addshape(nkrats3)
+screen.addshape(nkrats4)
+screen.addshape(nkrats5)
 
 
 
@@ -193,10 +194,10 @@ image_coords = {
 
     "starkn": {  # PLAYER KNIGHT
 
-        starkn1: [-161, -13],
-        starkn2: [-143, -20],
+        starkn1: [-232, 11],
+        starkn2: [-143, -40],
         starkn3: [-148, -10],
-        starkn4: [],
+        starkn4: [-100, 0],
         starkn5: [-198, -83]
 
         },
@@ -206,7 +207,7 @@ image_coords = {
         nkrats1: [169, -14],
         nkrats2: [127, -18],
         nkrats3: [150, -12],
-        nkrats4: [],
+        nkrats4: [100, 0],
         nkrats5: [202, -85]
 
         }
@@ -219,10 +220,16 @@ image_coords = {
 
 
 
-screen.bgpic(bckgrd)
+
 
 
 button_coords = [-240, -80, 80, 240]
+
+def game_over(winner, loser, final_blow):
+    screen.clear()
+    screen.bgpic(bckgrd_curtain)
+    end_screen(winner, loser, final_blow)
+    
 
 
 # BUTTONS
@@ -331,9 +338,24 @@ class flavorText(turtle.Turtle):
         self.write(self.text, False, self.side, ("Calabri", 7, "italic"))
 
 
+
+class tutorial_text(turtle.Turtle):
+    def __init__(self):
+                 pass
+
+
                    
     
-
+class end_screen(turtle.Turtle):
+    def __init__(self, winner, loser, final_blow):
+        super().__init__()
+        self.ht()
+        self.pu()
+        self.color('white')
+        self.write(winner.t + " prevailed using " + final_blow + "!",
+                   False, 'center', ("Calabri", 20, "italic"))
+        self.goto(0, -20)
+        self.write("Press r to restart.")
 
 
 
@@ -581,7 +603,7 @@ class visualFigure(visual):
     def attacking(self):
         self.change_image(self.shapes[1])
         t.sleep(.75)
-        self.change_image(self.shapes[0])
+        #self.change_image(self.shapes[0])
 
 
     def take_damage(self):
@@ -593,16 +615,19 @@ class visualFigure(visual):
             self.st()
             screen.update()
             t.sleep(.25)
-        self.change_image(self.shapes[0])
+        #self.change_image(self.shapes[0])
 
     def healing(self):
         self.change_image(self.shapes[3])
         t.sleep(.75)
-        self.change_image(self.shapes[0])
+        #self.change_image(self.shapes[0])
 
     def lose(self):
         self.change_image(self.shapes[4])
         screen.update()
+        t.sleep(1.5)
 
 
-
+screen.bgpic('stage.gif')
+vf = visualFigure('starkn')
+vf.attacking()

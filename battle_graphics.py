@@ -5,6 +5,8 @@ import time as t
 screen = turtle.Screen()
 
 
+
+
 # self.write("    " + name, False, 'left', ("Arial", 15, 'bold'))
 
 
@@ -195,20 +197,20 @@ image_coords = {
     "starkn": {  # PLAYER KNIGHT
 
         starkn1: [-232, 11],
-        starkn2: [-143, -40],
-        starkn3: [-148, -10],
-        starkn4: [-100, 0],
-        starkn5: [-198, -83]
+        starkn2: [-219, -37],
+        starkn3: [-267, 2],
+        starkn4: [-233, -83],
+        starkn5: [-274, -95]
 
         },
 
     "nkrats": {  # ENEMY KNIGHT
 
-        nkrats1: [169, -14],
-        nkrats2: [127, -18],
-        nkrats3: [150, -12],
-        nkrats4: [100, 0],
-        nkrats5: [202, -85]
+        nkrats1: [244, 15],
+        nkrats2: [219, -36],
+        nkrats3: [268, 7],
+        nkrats4: [235, -83],
+        nkrats5: [272, -95]
 
         }
 
@@ -235,12 +237,19 @@ def game_over(winner, loser, final_blow):
 # BUTTONS
 
 class Button(turtle.Turtle):
-    def __init__(self, lable, x, unavailable_level):
+    def __init__(self, lable, x, unavailable_level, multi):
         super().__init__()
 
         self.penup()
         self.setheading(90)
         self.speed(100)
+        self.x = x
+
+        self.lable = lable
+        self.multi = multi
+        self.cutoff = unavailable_level
+        self.lable = lable
+
 
         self.shape(image1)
         self.goto(x, -200)
@@ -254,17 +263,88 @@ class Button(turtle.Turtle):
             self.forward(-10)
             self.write(lable, False, 'center', ("Calabri", 15, "bold"))
 
+
+    
+        self.color('white')
+        
+        self.goto(self.x - 20, -270)
+        self.write("            "  + str(self.multi) + "\n   Power\nMultiplier", False, 'right',
+                   ("Calabri", 8))
+        
+        self.goto(self.x + 23, -270)
+        self.write(str(self.cutoff) + "\nStamina\nCost", False, 'left',
+                   ("Calabri", 8))
+
+
+
         self.goto(x, -200)
-        self.cutoff = unavailable_level
-        self.lable = lable
+
+        self.avail = True
 
     def unavailable(self):
-        self.shape(image2)
+        if self.avail:
+            self.shape(image2)
+            self.color('black')
+            self.clear()
+
+            if len(self.lable.split(" ")) == 2:
+                for y in self.lable.split(" "):
+                    self.write(y, False, 'center', ("Calabri", 15, "bold"))
+                    self.forward(-20)
+            else:
+                self.forward(-10)
+                self.write(self.lable, False, 'center', ("Calabri", 15, "bold"))
+
+            self.color('grey')
+            
+            self.goto(self.x - 20, -270)
+            self.write("            "  + str(self.multi) + "\n   Power\nMultiplier", False, 'right',
+                       ("Calabri", 8))
+            
+            self.goto(self.x + 23, -270)
+            self.write(str(self.cutoff) + "\nStamina\nCost", False, 'left',
+                       ("Calabri", 8))
+
+
+            self.goto(self.x, -200)
+
+            self.avail = False
+
+        
 
     def available(self):
-        self.shape(image1)
+
+        if not self.avail:
+            self.shape(image1)
+            self.color(0.11, 0.11, 0.24)
+            self.clear()
+
+            if len(self.lable.split(" ")) == 2:
+                for y in self.lable.split(" "):
+                    self.write(y, False, 'center', ("Calabri", 15, "bold"))
+                    self.forward(-20)
+            else:
+                self.forward(-10)
+                self.write(self.lable, False, 'center', ("Calabri", 15, "bold"))
+
+            self.color('white')
+            
+            self.goto(self.x - 20, -270)
+            self.write("            "  + str(self.multi) + "\n   Power\nMultiplier", False, 'right',
+                       ("Calabri", 8))
+            
+            self.goto(self.x + 23, -270)
+            self.write(str(self.cutoff) + "\nStamina\nCost", False, 'left',
+                       ("Calabri", 8))
+
+
+
+            self.goto(self.x, -200)
+            self.avail = True
+
 
     def option_selected(self, stamina_leftover):
+        
         if stamina_leftover < self.cutoff:
             self.unavailable()
         else:
@@ -274,18 +354,21 @@ class Button(turtle.Turtle):
 
 
 class GroupOf4Buttons(turtle.Turtle):
-    def __init__(self, lables, cutoff_stamina):
+    def __init__(self, lables, cutoff_stamina, multi):
         super().__init__()
 
         self.penup()
         self.setheading(90)
         self.speed(100)
 
-        self.ch1 = Button(lables[0], button_coords[0], cutoff_stamina[0])
-        self.ch2 = Button(lables[1], button_coords[1], cutoff_stamina[1])
-        self.ch3 = Button(lables[2], button_coords[2], cutoff_stamina[2])
-        self.ch4 = Button(lables[3], button_coords[3], cutoff_stamina[3])
+
+        self.ch1 = Button(lables[0], button_coords[0], cutoff_stamina[0], multi[0])
+        self.ch2 = Button(lables[1], button_coords[1], cutoff_stamina[1], multi[1])
+        self.ch3 = Button(lables[2], button_coords[2], cutoff_stamina[2], multi[2])
+        self.ch4 = Button(lables[3], button_coords[3], cutoff_stamina[3], multi[3])
+        
         self.buttons = [self.ch1, self.ch2, self.ch3, self.ch4]
+
 
         self.shape('classic')
         self.color(0.89, 0.89, 0.76)
@@ -339,9 +422,212 @@ class flavorText(turtle.Turtle):
 
 
 
-class tutorial_text(turtle.Turtle):
+class txt_w_bkgrd(turtle.Turtle):
+    def __init__(self, bkgrd_color = 'white'):
+        super().__init__()
+        self.ht()
+        self.pu()
+        self.speed(100)
+        self.bg_color = bkgrd_color
+        
+        self.key_file = open('key_settings.txt', 'r')
+        self.keys = self.key_file.readlines()
+
+        for x in range(len(self.keys)):
+            self.keys.insert(x, self.keys.pop(x).split('\n')[0])
+
+    def writeWbg(self, what_do):
+        wha = what_do.split('\n')
+        self.clear()
+        self.pensize(40)
+        self.setheading(0)
+        
+        self.color('white')
+        self.goto(-180, 16)
+        self.pd()
+        self.fd(360)
+        
+        self.color('black')
+        self.pu()
+        self.goto(0, 0)
+        self.write(what_do, False, 'center', ("Calabri", 9, 'bold'))
+        
+
+
+
+class popup_confirm(txt_w_bkgrd):
     def __init__(self):
-                 pass
+        super().__init__()
+        self.open = False
+        
+    def closing(self):
+        self.open = False
+        self.clear()
+        screen.update()
+        
+    def opening(self):
+        self.open = True
+        self.writeWbg("Are you sure you want to exit?\nYour game will not save (" +
+                      self.keys[7] + " for yes/" + self.keys[8] +" for no).")
+        screen.update()
+
+
+class tutorial_text(txt_w_bkgrd):
+    def __init__(self, tutorial = True):
+        super().__init__('black')
+            
+        
+        self.color('white')
+        
+        if tutorial:
+            self.intro = True
+            self.arrow_dir = True
+            self.health_bar = True
+            self.stamina_bar = True
+            self.stamina_inc = True
+            self.attacks = True
+            self.lables = True
+            self.heal = True
+            self.random = True
+            self.enter = True
+            self.fun = True
+        else:
+            self.intro = False
+            self.arrow_dir = False
+            self.health_bar = False
+            self.stamina_bar = False
+            self.stamina_inc = False
+            self.attacks = False
+            self.lables = False
+            self.heal = False
+            self.random = False
+            self.enter = False
+            self.fun = False
+
+    def write_bold(self, what_do):
+        wha = what_do.split('\n')
+        y = 175
+        
+        if len(wha) == 1:
+            biggest = wha[0]
+            y = 167
+            self.pensize(20)
+            
+        elif wha[0] > wha[1]:
+            biggest = wha[0]
+            self.pensize(40)
+            
+        else:
+            biggest = wha[1]
+            self.pensize(40)
+
+        self.goto((len(biggest) * -6), y)
+        
+        self.color('black')
+        
+        self.setheading(0)
+        
+        self.pd()
+        self.fd(len(biggest * 12))
+        self.pu()
+
+        self.goto(0, 158)
+
+        self.color('white')
+        self.write(what_do, False, 'center', ("Courier", 9, 'bold'))
+
+        screen.update()
+        
+
+    def check_change(self):
+        self.clear()
+        txt = ''
+
+        
+        if self.intro:
+            txt = "You are on the left, your enemy is on the right \
+(press " + self.keys[5] + " to move to the next \ntutorial page, " \
++ self.keys[6] + " to skip the tutorial, and " + self.keys[4] + " t\
+o exit to the menue)."
+            self.intro = False
+
+        
+        elif self.arrow_dir:
+            txt = "Use the " + self.keys[0] + " and " + self.keys[1] + \
+            " keys to change the button you have selected."
+            self.arrow_dir = False
+
+
+        elif self.health_bar:
+            txt = "The green bar is your health. \nWhen it meets or goes \
+under 0, you will lose."
+            self.health_bar = False
+
+
+        elif self.stamina_bar:
+            txt = "The blue bar is your stamina. Every action costs stamina. \
+If you don't \nhave enough stamina to do something, the button for that actio\
+n will turn grey."
+            self.stamina_bar = False
+
+        elif self.stamina_inc:
+            txt = "At the beginning of each of your turns \
+you will gain 4 stamina."
+            self.stamina_inc = False
+
+
+        elif self.attacks:
+            txt = "The first three buttons are attacks. You can tell how \
+powerful an attack is \n\
+            by its Power Multiplier."
+            self.attacks = False
+
+
+        elif self.lables:
+            txt = "How much stamina an action costs is shown under and to the right\n\
+of the button, while the other number is the Power Multiplier."
+            self.lables = False
+
+
+        elif self.heal:
+            txt = "The last button on the right is to heal."
+            self.heal = False
+
+        elif self.random:
+            txt = "Every action's value is randomized, so there's no set \
+value for attacking or healing.\nPower Multipliers increase the base that \
+the random number is added to."
+            self.random = False
+
+        elif self.enter:
+            txt = "Use the " + self.keys[2] + " key to choose an action."
+            self.enter = False
+
+
+        elif self.fun:
+            txt = "Have fun!"
+            self.fun = False
+
+        else:
+            return
+            
+        self.write_bold(txt)
+            
+
+    def skip_tutorial(self):
+        self.clear()
+        self.arrow_dir = False
+        self.health_bar = False
+        self.stamina_bar = False
+        self.stamina_inc = False
+        self.attacks = False
+        self.lables = False
+        self.heal = False
+        self.random = False
+        self.enter = False
+        self.fun = False
+            
+            
 
 
                    
@@ -354,8 +640,12 @@ class end_screen(turtle.Turtle):
         self.color('white')
         self.write(winner.t + " prevailed using " + final_blow + "!",
                    False, 'center', ("Calabri", 20, "italic"))
-        self.goto(0, -20)
-        self.write("Press r to restart.")
+        self.goto(0, -25)
+        
+        self.key_file = open('key_settings.txt', 'r')
+        self.keys = self.key_file.readlines()
+        
+        self.write("Press " + self.keys[3] + " to restart.", False, 'center')
 
 
 
@@ -603,7 +893,7 @@ class visualFigure(visual):
     def attacking(self):
         self.change_image(self.shapes[1])
         t.sleep(.75)
-        #self.change_image(self.shapes[0])
+        self.change_image(self.shapes[0])
 
 
     def take_damage(self):
@@ -615,12 +905,12 @@ class visualFigure(visual):
             self.st()
             screen.update()
             t.sleep(.25)
-        #self.change_image(self.shapes[0])
+        self.change_image(self.shapes[0])
 
     def healing(self):
         self.change_image(self.shapes[3])
         t.sleep(.75)
-        #self.change_image(self.shapes[0])
+        self.change_image(self.shapes[0])
 
     def lose(self):
         self.change_image(self.shapes[4])
@@ -628,6 +918,3 @@ class visualFigure(visual):
         t.sleep(1.5)
 
 
-screen.bgpic('stage.gif')
-vf = visualFigure('starkn')
-vf.attacking()

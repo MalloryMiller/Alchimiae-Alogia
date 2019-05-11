@@ -5,7 +5,7 @@ import battle_graphics as g
 buff = 25
 stamina_buff = 5
 
-randomness = 15
+randomness = 20
 atkdef_divider = 5
 
 full_health = 100
@@ -16,6 +16,7 @@ full_defense = 50
 heal_rate = 40
 
 stamina_cutoffs = [3, 6, 12, 2]
+multiplier = [1, 2, 4, 1]
 
 
 
@@ -135,6 +136,10 @@ class Player():
     def take_damage(self, attacker, damage):
         damage -= self.defense // atkdef_divider \
                   + r.randint(-randomness, 0)
+
+        if damage < 0:
+            damage = 0
+            
         self.health -= damage
 
         self.health_bar.change_value(self.health)
@@ -198,14 +203,14 @@ class Player():
 
 
     def act1(self, target):
-        self.attack(target, self.actNames[0])
+        self.attack(target, self.actNames[0], multiplier[0])
 
     def act2(self, target):
-        self.attack(target, self.actNames[1], 2)
+        self.attack(target, self.actNames[1], multiplier[1])
 
 
     def act3(self, target):
-        self.attack(target, self.actNames[2], 4)
+        self.attack(target, self.actNames[2], multiplier[2])
 
 
     def act4(self, target):

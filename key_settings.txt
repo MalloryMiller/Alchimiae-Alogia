@@ -3,3 +3,9 @@ Right
 Return
 r
 Escape
+space
+x
+y
+n
+Up
+Down

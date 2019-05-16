@@ -220,14 +220,18 @@ image_coords = {
 
 
 
-
-
-
-
-
 button_coords = [-240, -80, 80, 240]
 
+character_type_nums = {
+    'alc': 0,
+    'azu': 1,
+    'inc': 2,
+    'sta': 3
+    }
+
+
 def game_over(winner, loser, final_blow):
+    screen.reset()
     screen.clear()
     screen.bgpic(bckgrd_curtain)
     end_screen(winner, loser, final_blow)
@@ -236,7 +240,12 @@ def game_over(winner, loser, final_blow):
 
 # BUTTONS
 
-class Button(turtle.Turtle):
+class screen_part(turtle.Turtle):
+    def __init__(self):
+        super().__init__()
+        
+
+class Button(screen_part):
     def __init__(self, lable, x, unavailable_level, multi):
         super().__init__()
 
@@ -353,7 +362,7 @@ class Button(turtle.Turtle):
 
 
 
-class GroupOf4Buttons(turtle.Turtle):
+class GroupOf4Buttons(screen_part):
     def __init__(self, lables, cutoff_stamina, multi):
         super().__init__()
 
@@ -398,7 +407,7 @@ class GroupOf4Buttons(turtle.Turtle):
 # ONSCREEN TEXT
 
 
-class flavorText(turtle.Turtle):
+class flavorText(screen_part):
     def __init__(self, side):
         super().__init__()
         self.penup()
@@ -422,7 +431,7 @@ class flavorText(turtle.Turtle):
 
 
 
-class txt_w_bkgrd(turtle.Turtle):
+class txt_w_bkgrd(screen_part):
     def __init__(self, bkgrd_color = 'white'):
         super().__init__()
         self.ht()
@@ -506,11 +515,11 @@ class tutorial_text(txt_w_bkgrd):
 
     def write_bold(self, what_do):
         wha = what_do.split('\n')
-        y = 175
+        y = 173
         
         if len(wha) == 1:
             biggest = wha[0]
-            y = 167
+            y = 165
             self.pensize(20)
             
         elif wha[0] > wha[1]:
@@ -534,7 +543,7 @@ class tutorial_text(txt_w_bkgrd):
         self.goto(0, 158)
 
         self.color('white')
-        self.write(what_do, False, 'center', ("Courier", 9, 'bold'))
+        self.write(what_do, False, 'center', ("Calabri", 9, 'bold'))
 
         screen.update()
         
@@ -548,7 +557,7 @@ class tutorial_text(txt_w_bkgrd):
             txt = "You are on the left, your enemy is on the right \
 (press " + self.keys[5] + " to move to the next \ntutorial page, " \
 + self.keys[6] + " to skip the tutorial, and " + self.keys[4] + " t\
-o exit to the menue)."
+o exit to the menu)."
             self.intro = False
 
         
@@ -560,7 +569,7 @@ o exit to the menue)."
 
         elif self.health_bar:
             txt = "The green bar is your health. \nWhen it meets or goes \
-under 0, you will lose."
+under 0, you will perish."
             self.health_bar = False
 
 
@@ -632,7 +641,7 @@ the random number is added to."
 
                    
     
-class end_screen(turtle.Turtle):
+class end_screen(screen_part):
     def __init__(self, winner, loser, final_blow):
         super().__init__()
         self.ht()
@@ -640,19 +649,22 @@ class end_screen(turtle.Turtle):
         self.color('white')
         self.write(winner.t + " prevailed using " + final_blow + "!",
                    False, 'center', ("Calabri", 20, "italic"))
-        self.goto(0, -25)
+        self.goto(0, -40)
         
         self.key_file = open('key_settings.txt', 'r')
         self.keys = self.key_file.readlines()
+        self.key_file.close()
         
-        self.write("Press " + self.keys[3] + " to restart.", False, 'center')
+        self.write("Press " + self.keys[3].split('\n')[0] + " to restart\nor "
+                   + self.keys[4].split('\n')[0] + ' to exit to the play menu.',
+                   False, 'center')
 
 
 
 # HEALTH + STAMINA BARS
 
 
-class vis_bar(turtle.Turtle):
+class vis_bar(screen_part):
 
 
     def __init__(self, host, side, direction = None):
@@ -767,6 +779,7 @@ class vis_bar(turtle.Turtle):
 
 
     def not_enough_stam(self):
+        
         for x in range(3):
             self.clear()
             screen.update()
@@ -779,7 +792,7 @@ class vis_bar(turtle.Turtle):
 
 
 
-class Bar(turtle.Turtle):
+class Bar(screen_part):
     def __init__(self, host_value, side):
         super().__init__()
         self.ht()
@@ -854,7 +867,7 @@ class stamina_bar(Bar):
 # PLAYER AND ENEMY DRAWINGS
 
 
-class visual(turtle.Turtle):
+class visual(screen_part):
 
     def __init__(self, player_type):
         super().__init__()

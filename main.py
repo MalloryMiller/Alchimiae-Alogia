@@ -1,4 +1,4 @@
-import menue
+import menu
 
-menue.menue_page()
-menue.mg.screen.mainloop()
+menu.menu_page()
+menu.mg.screen.mainloop()

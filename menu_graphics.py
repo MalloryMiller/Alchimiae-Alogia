@@ -4,7 +4,7 @@ screen = turtle.Screen()
 
 
      
-class menue_lables(turtle.Turtle):
+class menu_lables(turtle.Turtle):
     def __init__(self, lable, coords):
         super().__init__()
         self.lable = lable
@@ -34,9 +34,16 @@ class selection_cursor(turtle.Turtle):
             
         self.choice = 0
         
-        self.goto(self.coords[self.choice][0] - 100,
+        self.goto(self.coords[self.choice][0] - 70,
                   self.coords[self.choice][1] + 20)
 
+
+        if self.coords[self.choice][1] == -125:
+            self.goto(self.coords[self.choice][0] - 70,
+                      self.coords[self.choice][1] + 35)
+
+        screen.update()
+        
     def change_up(self):
         
         if self.choice > 0:
@@ -45,8 +52,14 @@ class selection_cursor(turtle.Turtle):
             self.choice = len(self.coords) - 1
 
             
-        self.goto(self.coords[self.choice][0] - 100,
+        self.goto(self.coords[self.choice][0] - 70,
                   self.coords[self.choice][1] + 20)
+
+        if self.coords[self.choice][1] == -125:
+            self.goto(self.coords[self.choice][0] - 70,
+                      self.coords[self.choice][1] + 35)
+            
+        screen.update()
 
     def change_down(self):
         
@@ -56,6 +69,27 @@ class selection_cursor(turtle.Turtle):
             self.choice = 0
 
                        
-        self.goto(self.coords[self.choice][0] - 100,
+        self.goto(self.coords[self.choice][0] - 70,
                   self.coords[self.choice][1] + 20)
+
+        if self.coords[self.choice][1] == -125:
+            self.goto(self.coords[self.choice][0] - 70,
+                      self.coords[self.choice][1] + 35)
         
+        screen.update()
+        
+class key_instructions(turtle.Turtle):
+    def __init__(self, up, down, enter):
+        super().__init__()
+        self.pu()
+        self.ht()
+        self.goto(0, -260)
+        self.color('white')
+        self.write("Use the {} key and the {} key to\n\
+change the selection and \n\
+the {} key to choose the selected item.".format(
+    up.split('\n')[0], down.split('\n')[0], enter.split('\n')[0]),
+                   None, 'center')
+
+
+    

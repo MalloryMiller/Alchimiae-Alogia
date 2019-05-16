@@ -203,18 +203,20 @@ class Player():
 
 
     def act1(self, target):
-        self.attack(target, self.actNames[0], multiplier[0])
+        if self.attack(target, self.actNames[0], multiplier[0]):
+            return True
 
     def act2(self, target):
-        self.attack(target, self.actNames[1], multiplier[1])
-
+        if self.attack(target, self.actNames[1], multiplier[1]):
+            return True
 
     def act3(self, target):
-        self.attack(target, self.actNames[2], multiplier[2])
-
+        if self.attack(target, self.actNames[2], multiplier[2]):
+            return True
 
     def act4(self, target):
-        self.heal(target, self.actNames[3])
+        if self.heal(target, self.actNames[3]):
+            return True
 
 
 
@@ -225,6 +227,7 @@ class Alchemist(Player): # Light
     def __init__(self, name, enemy_t_or_f):
         super().__init__(name)
         self.enemy = enemy_t_or_f
+        self.type = 'alc'
 
         if self.enemy:
             self.t = 'The Enemy has'
@@ -263,6 +266,7 @@ class AzureArcher(Player): # Water
         super().__init__(name)
         
         self.enemy = enemy_t_or_f
+        self.type = 'azu'
         
         if self.enemy:
             self.t = 'The Enemy has'
@@ -304,6 +308,7 @@ class IncendiaryWarrior(Player): # Fire
         super().__init__(name)
         
         self.enemy = enemy_t_or_f
+        self.type = 'inc'
 
         if self.enemy:
             self.t = 'The Enemy has'
@@ -343,6 +348,7 @@ class StarryKnight(Player): # Darkness
         super().__init__(name)
         
         self.enemy = enemy_t_or_f
+        self.type = 'sta'
         
         if self.enemy:
             self.t = 'The Enemy has'

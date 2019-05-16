@@ -1,24 +1,7 @@
-import turtle
-import battle_graphics as g
-import player_types as pt
-import menue as m
 
-g.screen.tracer(1000000, 1000000)
-
-player_type_num = pt.r.randint(0, 3)
 
 battle_keys_file = open('key_settings.txt', 'r')
 list_keys = battle_keys_file.readlines()
-
-key_left_option = list_keys[0]
-key_right_option = list_keys[1]
-key_choose_option = list_keys[2]
-key_restart = list_keys[3]
-key_menue = list_keys[4]
-key_next_tut_p = list_keys[5]
-key_skip_tut = list_keys[6]
-key_confirm_exit_tomenue = list_keys[7]
-key_deny_exit_tomenue = list_keys[8]
 
 battle_keys_file.close()
 
@@ -29,7 +12,27 @@ def cleansekeys():
 
 
 
-def pve(list_keys = list_keys, tutorial = True):
+
+
+import turtle
+import battle_graphics as g
+import player_types as pt
+import menu as m
+
+
+
+
+g.screen.tracer(1000000, 1000000)
+
+player_type_num = pt.r.randint(0, 3)
+
+
+
+
+
+def pve(player_type_num, tutorial = True, list_keys = list_keys):
+
+    screen_items = []
 
         
     battle_keys_file = open('key_settings.txt', 'r')
@@ -39,17 +42,18 @@ def pve(list_keys = list_keys, tutorial = True):
     key_right_option = list_keys[1]
     key_choose_option = list_keys[2]
     key_restart = list_keys[3]
-    key_menue = list_keys[4]
+    key_menu = list_keys[4]
     key_next_tut_p = list_keys[5]
     key_skip_tut = list_keys[6]
-    key_confirm_exit_tomenue = list_keys[7]
-    key_deny_exit_tomenue = list_keys[8]
+    key_confirm_exit_tomenu = list_keys[7]
+    key_deny_exit_tomenu = list_keys[8]
 
     battle_keys_file.close()
 
     cleansekeys()
     
     confirm_box = g.popup_confirm()
+    screen_items.append(confirm_box)
 
 
     g.screen.clear()
@@ -67,7 +71,7 @@ def pve(list_keys = list_keys, tutorial = True):
 
         ]
 
-    player_type_num = pt.r.randint(0, 3)
+
 
 
     random_enemy = pt.r.randint(0, 2)
@@ -89,9 +93,14 @@ def pve(list_keys = list_keys, tutorial = True):
              True)                  # enemy, not player
 
     
+    screen_items.append(player)
+    screen_items.append(enemy)
+
+    
 
     tutorial = g.tutorial_text(tutorial)
     tutorial.check_change()
+    screen_items.append(tutorial)
 
 
 
@@ -110,6 +119,7 @@ def pve(list_keys = list_keys, tutorial = True):
 
     actions = g.GroupOf4Buttons(player.actNames, pt.stamina_cutoffs,
                                 pt.multiplier)
+    screen_items.append(actions)
 
 
 
@@ -117,10 +127,10 @@ def pve(list_keys = list_keys, tutorial = True):
         enemy.begin_turn()
 
 
-        if enemy.health < pt.r.randint(15, 50):
+        if enemy.health < pt.r.randint(enemy.full_health // 3, enemy.full_health // 2):
             enemy.act4(player)
             
-        elif enemy.stamina > 15:
+        elif enemy.stamina > 12:
             if enemy.act3(player):
                 return True
             
@@ -148,7 +158,7 @@ def pve(list_keys = list_keys, tutorial = True):
             
         cleansekeys()
 
-        turtle.onkey(confirm_exit, key_menue)
+        turtle.onkey(confirm_exit, key_menu)
         turtle.onkey(tutorial.check_change, key_next_tut_p)
         turtle.onkey(tutorial.skip_tutorial, key_skip_tut)
         actions.ht()
@@ -161,7 +171,7 @@ def pve(list_keys = list_keys, tutorial = True):
 
         cleansekeys()
         
-        turtle.onkey(confirm_exit, key_menue)
+        turtle.onkey(confirm_exit, key_menu)
         turtle.onkey(left, key_left_option)
         turtle.onkey(right, key_right_option)
         turtle.onkey(enter, key_choose_option)
@@ -170,11 +180,12 @@ def pve(list_keys = list_keys, tutorial = True):
         actions.st()
         g.screen.update()
 
-    def castEndscreenkeys():
+
+    def castEndscreenkeys():            
         tutorial.skip_tutorial()
         cleansekeys()
         
-        turtle.onkey(m.menue_page, key_menue)
+        turtle.onkey(m.menu_page, key_menu)
         turtle.onkey(pve_notut, key_restart)
         
         for b in actions.buttons:
@@ -191,11 +202,20 @@ def pve(list_keys = list_keys, tutorial = True):
         if not confirm_box.open:
             confirm_box.opening()
 
-            turtle.onkey(m.menue_page, key_confirm_exit_tomenue) 
-            turtle.onkey(not_closing, key_deny_exit_tomenue)
+            turtle.onkey(exit_to_menu, key_confirm_exit_tomenu) 
+            turtle.onkey(not_closing, key_deny_exit_tomenu)
             
         else:
             pass
+
+    def exit_to_menu():
+        for b in actions.buttons:
+            b.clear()
+            
+        g.screen.reset()
+        g.screen.clear()
+
+        m.menu_page()
 
 
 
@@ -206,7 +226,7 @@ def pve(list_keys = list_keys, tutorial = True):
 
 
     def pve_notut():
-        pve(False)
+        pve(player_type_num, False)
 
 
 

@@ -1,6 +1,7 @@
 import turtle
 import battle_run as br
 import menu as m
+import sound_management as sm
 
 screen = turtle.Screen()
 
@@ -56,6 +57,7 @@ class char_selection_screen(turtle.Turtle):
     
 
 def select_character_page():
+    sm.idle_music()
     screen.tracer(1000000, 1000000)
     
     screen.reset()

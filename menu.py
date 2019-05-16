@@ -1,4 +1,5 @@
 import menu_graphics as mg
+import sound_management as sm
 import character_select as cs
 import credit as c
 
@@ -11,6 +12,7 @@ import credit as c
 
 def menu_page():
     from settings import full_settings_page as s
+    sm.menu_music()
 
     opts = [
         

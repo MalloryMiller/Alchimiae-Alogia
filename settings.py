@@ -1,11 +1,13 @@
 import menu as m
 import turtle as t
+import sound_management as sm
 
 
 chosen_setting = [0]
 screen = t.Screen()
 
 def full_settings_page(chosen_setting = chosen_setting):
+    sm.submenu_music()
     different_key_uses = []
 
     screen.reset()

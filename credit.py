@@ -1,6 +1,7 @@
 import turtle as t
 from fractions import Fraction
 import menu as m
+import sound_management as sm
 
 
 
@@ -10,6 +11,7 @@ list_keys = keys_settings_file.readlines()
 leave_screen_key = list_keys[4].split('\n')[0]
 
 def credits_page():
+    sm.submenu_music()
     screen.clear()
     screen.reset()
     screen.bgcolor(0, 0, 0)

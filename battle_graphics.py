@@ -1,6 +1,6 @@
 import turtle
 import time as t
-
+import sound_management as sm
 
 screen = turtle.Screen()
 

@@ -18,6 +18,7 @@ import turtle
 import battle_graphics as g
 import player_types as pt
 import menu as m
+import sound_management as sm
 
 
 
@@ -31,6 +32,7 @@ player_type_num = pt.r.randint(0, 3)
 
 
 def pve(player_type_num, tutorial = True, list_keys = list_keys):
+    sm.battle_music()
 
     screen_items = []
 
@@ -181,8 +183,9 @@ def pve(player_type_num, tutorial = True, list_keys = list_keys):
         g.screen.update()
 
 
-    def castEndscreenkeys():            
+    def castEndscreenkeys(player_win):            
         tutorial.skip_tutorial()
+        sm.end_screen_music(player_win)
         cleansekeys()
         
         turtle.onkey(m.menu_page, key_menu)
@@ -242,11 +245,11 @@ def pve(player_type_num, tutorial = True, list_keys = list_keys):
         nullkeys()
 
         if action_ordered[actions.select_opt](enemy):
-            castEndscreenkeys()
+            castEndscreenkeys(True)
             return
 
         elif enemys_turn():
-            castEndscreenkeys()
+            castEndscreenkeys(False)
             return
         
         castBattlekeys()

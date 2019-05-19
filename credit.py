@@ -22,7 +22,7 @@ def credits_page():
             super().__init__()
             self.pu()
             self.ht()
-            self.goto(100, -260)
+            self.goto(100, -300)
             self.color('white')
             self.write("\
     CREDITS\n\
@@ -34,6 +34,9 @@ Beta Testers:\n\
         Mary M.\n\
         Virginia P.\n\
         Andi W.\n\
+\n\
+Alpah Testers:\n\
+        Ash V.\n\
 \n\
 Teacher:\n\
         Mr. H. Roberts\n\

@@ -18,18 +18,18 @@ def menu_page():
         
         [
             ['Play', cs.select_character_page],
-            [0, 30]
+            [0, 0]
             
             ], 
         
         [
             ['Settings', s],
-            [0, -30]
+            [0, -70]
             
             ],
         [
             ['Credits', c.credits_page],
-            [0, -90]
+            [0, -140]
             
             ]
 

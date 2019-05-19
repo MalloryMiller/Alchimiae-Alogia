@@ -2,6 +2,8 @@ import menu as m
 import turtle as t
 import sound_management as sm
 
+blue = [0.5, 0.5, 1]
+red = [1, .5, .5]
 
 chosen_setting = [0]
 screen = t.Screen()
@@ -89,7 +91,7 @@ def full_settings_page(chosen_setting = chosen_setting):
             screen.update()
 
         def default_key(self, x = 0, y = 0):
-            self.new_key(self.deffault, 'light blue')
+            self.new_key(self.deffault, blue)
 
     coords = [
 
@@ -359,25 +361,28 @@ def full_settings_page(chosen_setting = chosen_setting):
 
 
     class buttons_w_functs(buttons_for_settings):
-        def __init__(self, lable, funct, coords, side = 'right', color = 'light blue'):
+        def __init__(self, lable, funct, coords, side = 'right', \
+                     size = 15, color = blue):
             super().__init__(color)
-            self.c = color
+            self.c = color            
             self.shape('circle')
             self.color('white')
             self.funct = funct
+            self.size = size
             self.pu()
             self.goto(coords[0], coords[1])
-            self.write(lable, None, side, ('Calabri', 15))
+            self.write(lable, None, side, ('Calabri', self.size))
             if side == 'right':
-                self.goto(coords[0] + 20, coords[1] + 12)
+                self.goto(coords[0] + 30, coords[1] + 12)
             elif side == 'left':
-                self.goto(coords[0] - 20, coords[1] + 12)
+                self.goto(coords[0] - 30, coords[1] + 12)
             elif side == 'center':
                 self.goto(coords[0], coords[1])
             self.color('gray')
             self.onclick(self.clicking)
             self.onrelease(self.click_off)
             screen.update()
+
 
 
     instructions = None
@@ -430,9 +435,10 @@ Right click an arrow to reset it to its default.\
 
             for x in [
 
-                ['Save', save_changes, [-150, -250], 'left'],
+                ['Save New Keys', save_changes, [-180, -250], 'left'],
                 ['Menu', m.menu_page, [-200, 200], 'left'],
-                ['Default All Settings', default_keys, [150, -250], 'right']
+                ['Default All Settings', default_keys, [180, -250], 'right'],
+                
 
                  ]:
 
@@ -441,7 +447,7 @@ Right click an arrow to reset it to its default.\
 
         def bad_save(self):
             self.goto(-200, -200)
-            self.color(1, .5, .5)
+            self.color(red)
             self.write("Two or more of your settings share the same key.\n\
 You must fix this before you can save.")
             self.bad = True
@@ -452,6 +458,65 @@ You must fix this before you can save.")
 
 
 
+    class sound_setting(buttons_w_functs):
+        def __init__(self, funct):
+            self.stt = open("musicon.txt", 'r')
+            self.current_setting = int(self.stt.readlines()[0])
+            print(self.current_setting)
+            self.stt.close()
+            
+            if self.current_setting:
+                self.lable = 'Turn Music Off'
+                self.clr = 'white'
+            else:
+                self.lable = 'Turn Music On'
+                self.clr = 'grey'
+
+            
+            super().__init__(self.lable, funct, [80, -150], 'left', 10)
+            self.color(self.clr)
+
+            
+
+        def clicking(self, x = 0, y = 0):
+            self.color(blue)
+            screen.update() 
+            self.clr = self.funct(self)
+
+        def click_off(self, x = 0, y = 0):
+            self.color(self.clr)
+            screen.update()
+
+        def new_text(self, lable, new):
+            c = self.color()[0]
+            self.color('white')
+            self.clear()
+            self.goto(80, -150)
+            self.write(lable, None, 'left', ('Calabri', 10))
+            self.goto(50, -138)
+            self.color(c)
+
+
+
+    def toggle_music(core):
+        core.stt = open("musicon.txt", 'w')
+        
+        
+        if bool(core.current_setting):
+            core.current_setting = 0
+            core.stt.write('0')
+            core.stt.close()
+            core.new_text("Turn Music On", 0)
+            sm.nosound()
+            return 'gray'
+        else:
+            core.current_setting = 1
+            core.stt.write('1')
+            core.stt.close()
+            core.new_text("Turn Music Off", 1)
+            sm.submenu_music(True)
+            return 'white'
+        
 
 
     instructions = instructions()
@@ -460,6 +525,8 @@ You must fix this before you can save.")
         x.onclick(x.select)
         x.onclick(x.default_key, 3)
         x.onrelease(x.defaul_unselect, 3)
+        
+    sett = sound_setting(toggle_music)
 
         
     different_key_uses[0].select()
@@ -467,7 +534,6 @@ You must fix this before you can save.")
 
     for x in keys_:
         screen.onkey(keys_n_functs[x], x)
-
 
 
 

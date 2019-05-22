@@ -423,14 +423,12 @@ space\nx\ny\nn\nUp\nDown')
             self.goto(300, 145)
             self.color('white')
             self.write("\
-To select a key binding to change, left click the \n\
-arrow pointing to it. A selected option's \n\
-arrow will be white, and you may then press \n\
-on the keyboard the new key you \n\
-want to replace the old one with. \n\
-The circular buttons may be clicked on \n\
-to preform any action they sit next to.\n\
-Right click an arrow to reset it to its default.\
+Left click an option to select it.\n\
+For key settings, (with arrows as buttons)\n\
+press the key you want to replace the \n\
+old one with after the arrow is selected.\n\
+Right click a key setting to reset it to \n\
+its default.\
 ", None, 'right', ('Calabri', 10))
 
             for x in [
@@ -462,7 +460,6 @@ You must fix this before you can save.")
         def __init__(self, funct):
             self.stt = open("musicon.txt", 'r')
             self.current_setting = int(self.stt.readlines()[0])
-            print(self.current_setting)
             self.stt.close()
             
             if self.current_setting:

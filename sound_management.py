@@ -1,4 +1,4 @@
-import winsound
+#import winsound
 
 
 
@@ -15,12 +15,14 @@ def check_sett():
 
 
 def nosound():
-    winsound.PlaySound(None, winsound.SND_PURGE)
+    #winsound.PlaySound(None, winsound.SND_PURGE)
+    pass
 
 
 def yessound_bkgrd(sound):
-    winsound.PlaySound(sound + '.wav',
-                       winsound.SND_LOOP + winsound.SND_ASYNC)
+    #winsound.PlaySound(sound + '.wav',
+    #                   winsound.SND_LOOP + winsound.SND_ASYNC)
+    pass
 
 
 

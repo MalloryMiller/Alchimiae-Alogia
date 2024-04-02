@@ -4,9 +4,7 @@ A small turn-based fighting game made in Turtle.
 Run 'main.py' to start the game.
 
 Sound is functional for Windows, but may not work on other operating systems. 
-If when turning on the music in settings the program crashes, 
-  (1) you may need to go into the file named 'musicon.txt' and 
-  (2) change the '1' to '0' so you can turn back off the music remotely.
+If running a different OS, use the [system-nonspecific](https://github.com/MalloryMiller/Alchimiae-Alogia/tree/system-nonspecific) branch. It won't have any music, but it'll run :)
 
 The game only requires input with the mouse on the Settings page,
 and anywhere else it only responds to keyboard input.

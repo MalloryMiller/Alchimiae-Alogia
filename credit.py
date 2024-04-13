@@ -42,6 +42,7 @@ Teacher:\n\
         Mr. H. Roberts\n\
 \n\
 Programmed with Python\n\
+        With sound help from my dear friend Matei Cloteaux\n\
 \n\
 Art drawn with Sketchbook Express Pro\n\
 \n\

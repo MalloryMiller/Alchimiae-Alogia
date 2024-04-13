@@ -15,8 +15,8 @@ full_defense = 50
 
 heal_rate = 40
 
-stamina_cutoffs = [3, 6, 12, 2]
-multiplier = [1, 2, 4, 1]
+stamina_cutoffs = [3, 6, 12, 2, 0]
+multiplier = [1, 2, 4, 1, 0]
 
 
 
@@ -52,7 +52,7 @@ class Player():
         
         self.text = g.flavorText('left')
 
-        self.act_names = ['', '', '', '']
+        self.act_names = ['', '', '', '', '']
         
         self.full_health = full_health
         self.full_strength = full_strength
@@ -217,6 +217,11 @@ class Player():
     def act4(self, target):
         if self.heal(target, self.actNames[3]):
             return True
+        
+    def act5(self, target):
+        return
+        # if self.attack(target, self.actNames[2], 0):
+        #     return True
 
 
 
@@ -238,7 +243,8 @@ class Alchemist(Player): # Light
             "Blinding Barrage",
             "Splash Poison",
             "Acidic Solution",
-            "Healing Medley"
+            "Healing Medley",
+            "Do Nothing"
             ]
 
         self.full_health += buff
@@ -278,12 +284,12 @@ class AzureArcher(Player): # Water
             "Triple Arrow",
             "Sea Strike",
             "Arrow Tsunami",
-            "Bandage"
-
+            "Bandage",
+            "Do Nothing"
             ]
         
         self.full_stamina += stamina_buff
-        self.stamina += stamina_buff
+        self.stamina += stamina_buff 
         
         if enemy_t_or_f == True:
             self.visual = g.visualFigure("aeruza")
@@ -320,7 +326,8 @@ class IncendiaryWarrior(Player): # Fire
             "Fiery Slice",
             "Burning Blade",
             "Blind Rage",
-            "Healing Stew"
+            "Healing Stew",
+            "Do Nothing"
 
             ]
 
@@ -360,7 +367,8 @@ class StarryKnight(Player): # Darkness
             "Twilit Hammer",
             "Ground Slam",
             "Shadow Swing",
-            "Medical Break"
+            "Medical Break",
+            "Do Nothing"
             
             ]
 

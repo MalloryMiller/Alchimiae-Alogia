@@ -220,7 +220,7 @@ image_coords = {
 
 
 
-button_coords = [-240, -80, 80, 240]
+button_coords = [-320, -160, 0, 160, 320]
 
 character_type_nums = {
     'alc': 0,
@@ -353,8 +353,7 @@ class Button(screen_part):
 
 
     def option_selected(self, stamina_leftover):
-        
-        if stamina_leftover < self.cutoff:
+        if stamina_leftover < self.cutoff or self.lable == "Do Nothing":
             self.unavailable()
         else:
             self.available()
@@ -375,8 +374,9 @@ class GroupOf4Buttons(screen_part):
         self.ch2 = Button(lables[1], button_coords[1], cutoff_stamina[1], multi[1])
         self.ch3 = Button(lables[2], button_coords[2], cutoff_stamina[2], multi[2])
         self.ch4 = Button(lables[3], button_coords[3], cutoff_stamina[3], multi[3])
+        self.ch5 = Button("Do Nothing", button_coords[4], cutoff_stamina[4], multi[4])
         
-        self.buttons = [self.ch1, self.ch2, self.ch3, self.ch4]
+        self.buttons = [self.ch1, self.ch2, self.ch3, self.ch4, self.ch5]
 
 
         self.shape('classic')
@@ -392,10 +392,10 @@ class GroupOf4Buttons(screen_part):
     def select_button(self, change_opt):
         self.select_opt += change_opt
 
-        if self.select_opt > 3:
+        if self.select_opt > 4:
             self.select_opt = 0
         elif self.select_opt < 0:
-            self.select_opt = 3
+            self.select_opt = 4
         self.goto(button_coords[self.select_opt], -240)
 
         return self.select_opt
@@ -646,6 +646,8 @@ class end_screen(screen_part):
         super().__init__()
         self.ht()
         self.pu()
+        screen.bgcolor(0, 0, 0)
+        screen.tracer(1000, 1000)
         self.color('white')
         self.write(winner.t + " prevailed using " + final_blow + "!",
                    False, 'center', ("Calabri", 20, "italic"))

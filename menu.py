@@ -14,6 +14,8 @@ def menu_page():
     from settings import full_settings_page as s
     sm.menu_music()
 
+    
+
     opts = [
         
         [
@@ -39,6 +41,8 @@ def menu_page():
     mg.screen.clear()
     mg.screen.bgpic('title_screen.gif')
     mg.screen.tracer(1000000, 1000000)
+
+    mg.screen.bgcolor(0, 0, 0)
     
 
     battle_keys_file = open('key_settings.txt', 'r')

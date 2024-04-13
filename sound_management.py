@@ -1,7 +1,7 @@
-import winsound
+#import winsound
+from pygame import mixer
 
-
-
+mixer.init()
 
 def check_sett():
     settin = open('musicon.txt', 'r')
@@ -14,14 +14,19 @@ def check_sett():
 
 
 
-def nosound():
-    winsound.PlaySound(None, winsound.SND_PURGE)
 
 
 def yessound_bkgrd(sound):
-    winsound.PlaySound(sound + '.wav',
-                       winsound.SND_LOOP + winsound.SND_ASYNC)
+    #winsound.PlaySound(sound + '.wav',
+    #                   winsound.SND_LOOP + winsound.SND_ASYNC)
+    mixer.music.load(sound + ".wav")
+    mixer.music.play(loops=-1)
+    pass
 
+def nosound():
+    #winsound.PlaySound(None, winsound.SND_PURGE)
+    mixer.music.stop()
+    pass
 
 
     

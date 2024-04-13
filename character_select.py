@@ -16,6 +16,9 @@ screens = [choose_alchem, choose_archer, choose_warrior, choose_knight]
 screen_text_color = {choose_alchem: 'black', choose_archer: 'black',
                      choose_warrior: 'white', choose_knight: 'white'}
 
+screen_bg_color = {choose_alchem: "#fefd97", choose_archer: "#858e85", 
+                   choose_warrior: "#9c292d", choose_knight: "#151216"}
+
 
 class char_selection_screen(turtle.Turtle):
     def __init__(self, image_list):
@@ -25,7 +28,7 @@ class char_selection_screen(turtle.Turtle):
         self.goto(-290, -273)
         self.chosen_char = 0
         self.txt_color = screen_text_color[screens[self.chosen_char]]
-
+        screen.bgcolor(screen_bg_color[screens[self.chosen_char]])
         
         battle_keys_file = open('key_settings.txt', 'r')
         list_keys = battle_keys_file.readlines()
@@ -59,6 +62,7 @@ class char_selection_screen(turtle.Turtle):
 def select_character_page():
     sm.idle_music()
     screen.tracer(1000000, 1000000)
+    screen.bgcolor(0,0,0)
     
     screen.reset()
     screen.clear()
@@ -80,7 +84,7 @@ def select_character_page():
     char_screen = char_selection_screen(screens)
     
     screen.bgpic(screens[char_screen.chosen_char])
-
+    screen.bgcolor(screen_bg_color[screens[char_screen.chosen_char]])
     
     def next_char(char_screen = char_screen):
         
@@ -92,6 +96,7 @@ def select_character_page():
 
    
         screen.bgpic(screens[char_screen.chosen_char])
+        screen.bgcolor(screen_bg_color[screens[char_screen.chosen_char]])
         char_screen.text_instructions()
 
 
@@ -105,6 +110,7 @@ def select_character_page():
             char_screen.chosen_char -= 1
             
         screen.bgpic(screens[char_screen.chosen_char])
+        screen.bgcolor(screen_bg_color[screens[char_screen.chosen_char]])
         char_screen.text_instructions()
 
 

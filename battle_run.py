@@ -24,6 +24,7 @@ import sound_management as sm
 
 
 g.screen.tracer(1000000, 1000000)
+g.screen.bgcolor(0, 0, 0)
 
 player_type_num = pt.r.randint(0, 3)
 
@@ -61,7 +62,7 @@ def pve(player_type_num, tutorial = True, list_keys = list_keys):
     g.screen.clear()
     g.screen.bgpic(g.bckgrd_stage)
     g.screen.tracer(1000, 1000)
-
+    g.screen.bgcolor(0, 0, 0)
 
     
     possible_players = [
@@ -111,7 +112,8 @@ def pve(player_type_num, tutorial = True, list_keys = list_keys):
         player.act1,
         player.act2,
         player.act3,
-        player.act4
+        player.act4,
+        player.act5
 
         ]
 
